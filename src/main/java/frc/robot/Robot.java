@@ -24,8 +24,9 @@ import frc.robot.subsystems.*;
  */
 public class Robot extends TimedRobot {
  // public static ExampleSubsystem m_subsystem = new ExampleSubsystem();
+  public static RobotMap m_robotMap;
+  public static Drive m_drive;
   public static OI m_oi;
-
   //Command m_autonomousCommand;
   //SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -35,6 +36,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    m_robotMap = new RobotMap("/home/lvuser/robot.xml");
+    m_drive = new Drive();
     m_oi = new OI();
     /** m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
     // chooser.addOption("My Auto", new MyAutoCommand());
@@ -51,6 +54,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+
   }
 
   /**
@@ -90,9 +94,9 @@ public class Robot extends TimedRobot {
      */
 
     // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
+    //if (m_autonomousCommand != null) {
      // m_autonomousCommand.start();
-    }
+    //}
   }
 
   /**
@@ -100,7 +104,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    //Scheduler.getInstance().run();
+    Scheduler.getInstance().run();
   }
 
   @Override
@@ -109,9 +113,9 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    if (m_autonomousCommand != null) {
+    //if (m_autonomousCommand != null) {
      // m_autonomousCommand.cancel();
-    }
+    //}
   }
 
   /**
