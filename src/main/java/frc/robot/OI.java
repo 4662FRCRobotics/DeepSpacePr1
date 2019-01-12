@@ -7,6 +7,10 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
@@ -39,4 +43,20 @@ public class OI {
   // Start the command when the button is released and let it run the command
   // until it is finished as determined by it's isFinished method.
   // button.whenReleased(new ExampleCommand());
+
+  private Joystick m_driveStick;
+
+  public OI() {
+    m_driveStick = new Joystick(0);
+
+  }
+  // velocity * 2 / (throttle + 3)
+  public double getVelocity(){
+    return m_driveStick.getY() * 2 / (m_driveStick.getThrottle() + 3);
+  }
+
+  public double getHeading(){
+    
+    return m_driveStick.getTwist() * 2 / (m_driveStick.getThrottle() + 3);
+  }
 }
