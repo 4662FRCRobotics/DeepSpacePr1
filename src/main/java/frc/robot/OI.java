@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import frc.robot.commands.*;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -44,19 +46,28 @@ public class OI {
   // until it is finished as determined by it's isFinished method.
   // button.whenReleased(new ExampleCommand());
 
+  // 1 : trigger
+  // 2 : thumb button
+  // 3 - 6 : top
+  // 7 - 12 : base
+
   private Joystick m_driveStick;
+  private JoystickButton m_visionLightButton;
 
   public OI() {
     m_driveStick = new Joystick(0);
+    m_visionLightButton = new JoystickButton(m_driveStick, 12);
 
+    m_visionLightButton.whenPressed(new ToggleVisionLight());
   }
+
+
   // velocity * 2 / (throttle + 3)
   public double getVelocity(){
     return m_driveStick.getY() * 2 / (m_driveStick.getThrottle() + 3);
   }
 
   public double getHeading(){
-    
     return m_driveStick.getTwist() * 2 / (m_driveStick.getThrottle() + 3);
   }
 }

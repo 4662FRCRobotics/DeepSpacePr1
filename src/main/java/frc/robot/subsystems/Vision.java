@@ -20,9 +20,11 @@ public class Vision extends Subsystem {
   // here. Call these from Commands.
 
   private Spark m_ledController;
+  private boolean m_bLightOn;
 
   public Vision(){
     m_ledController = new Spark(Robot.m_robotMap.getPortNumber("ledController"));
+    m_bLightOn = false;
   }
 
   @Override
@@ -30,5 +32,23 @@ public class Vision extends Subsystem {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
     
+  }
+
+  public boolean IsLightOb() {
+    return m_bLightOn;
+  }
+
+  public void toggleLight() {
+    if (m_bLightOn){
+      m_ledController.set(0);
+    } else {
+      m_ledController.set(-1);
+    }
+    m_bLightOn = !m_bLightOn;
+  }
+
+  public void turnLightOff() {
+    m_ledController.set(0);
+    m_bLightOn = false;
   }
 }

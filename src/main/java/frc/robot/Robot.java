@@ -26,6 +26,7 @@ public class Robot extends TimedRobot {
  // public static ExampleSubsystem m_subsystem = new ExampleSubsystem();
   public static RobotMap m_robotMap;
   public static Drive m_drive;
+  public static Vision m_vision;
   public static OI m_oi;
   //Command m_autonomousCommand;
   //SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -38,6 +39,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     m_robotMap = new RobotMap("/home/lvuser/robot.xml");
     m_drive = new Drive();
+    m_vision = new Vision();
     m_oi = new OI();
     /** m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
     // chooser.addOption("My Auto", new MyAutoCommand());
@@ -64,6 +66,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+    m_vision.turnLightOff();
   }
 
   @Override
