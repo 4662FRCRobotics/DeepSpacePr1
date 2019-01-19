@@ -11,10 +11,13 @@ import frc.robot.commands.ArcadeDrive;
 import frc.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+//import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+
 
 
 /**
@@ -23,11 +26,17 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 public class Drive extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
-
+  /*
   private WPI_TalonSRX m_leftController1;
   private WPI_TalonSRX m_leftController2;
   private WPI_TalonSRX m_rightController1;
   private WPI_TalonSRX m_rightController2;
+  */
+
+  private CANSparkMax m_leftController1;
+  private CANSparkMax m_leftController2;
+  private CANSparkMax m_rightController1;
+  private CANSparkMax m_rightController2;
 
   private SpeedControllerGroup m_leftControlGroup;
   private SpeedControllerGroup m_rightControlGroup;
@@ -35,10 +44,16 @@ public class Drive extends Subsystem {
   private DifferentialDrive m_robotDrive;
 
   public Drive(){
+   /*
     m_leftController1 = new WPI_TalonSRX(Robot.m_robotMap.getPortNumber("leftController1"));
     m_leftController2 = new WPI_TalonSRX(Robot.m_robotMap.getPortNumber("leftController2"));
     m_rightController1 = new WPI_TalonSRX(Robot.m_robotMap.getPortNumber("rightController1"));
     m_rightController2 = new WPI_TalonSRX(Robot.m_robotMap.getPortNumber("rightController2"));
+    */
+    m_leftController1 = new CANSparkMax(Robot.m_robotMap.getPortNumber("leftController1"), MotorType.kBrushless);
+    m_leftController2 = new CANSparkMax(Robot.m_robotMap.getPortNumber("leftController2"), MotorType.kBrushless);
+    m_rightController1 = new CANSparkMax(Robot.m_robotMap.getPortNumber("rightController1"), MotorType.kBrushless);
+    m_rightController2 = new CANSparkMax(Robot.m_robotMap.getPortNumber("rightController2"), MotorType.kBrushless);
 
     m_leftControlGroup = new SpeedControllerGroup(m_leftController1, m_leftController2);
     m_rightControlGroup = new SpeedControllerGroup(m_rightController1, m_rightController2);
