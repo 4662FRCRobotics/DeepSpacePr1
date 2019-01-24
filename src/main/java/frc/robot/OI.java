@@ -53,14 +53,29 @@ public class OI {
 
   private Joystick m_driveStick;
   private JoystickButton m_visionLightButton;
+  private JoystickButton m_moveElbowUpButton;
+  private JoystickButton m_moveElbowDownButton;
+  private JoystickButton m_moveWristDownButton;
+  private JoystickButton m_moveWristUpButton;
+  private final int VISION_LIGHT_BUTTON = 12;
+  private final int UP_ELBOW = 5; 
+  private final int DOWN_ELBOW = 3;   
+  private final int UP_WRIST = 6;
+  private final int DOWN_WRIST = 4;
 
   public OI() {
     m_driveStick = new Joystick(0);
-    m_visionLightButton = new JoystickButton(m_driveStick, 12);
-
+    m_visionLightButton = new JoystickButton(m_driveStick, VISION_LIGHT_BUTTON);
     m_visionLightButton.whenPressed(new ToggleVisionLight());
+    m_moveElbowUpButton = new JoystickButton(m_driveStick, UP_ELBOW);
+    m_moveElbowUpButton.whileHeld(new MoveElbowUp());
+    m_moveElbowDownButton = new JoystickButton(m_driveStick, DOWN_ELBOW);
+    m_moveElbowDownButton.whileHeld(new MoveElbowDown());
+    m_moveWristUpButton = new JoystickButton(m_driveStick, UP_WRIST);
+    m_moveWristUpButton.whileHeld(new MoveWristUp());
+    m_moveWristDownButton = new JoystickButton(m_driveStick, DOWN_WRIST);
+    m_moveWristDownButton.whileHeld(new MoveWristDown());
   }
-
 
   // velocity * 2 / (throttle + 3)
   public double getVelocity(){
