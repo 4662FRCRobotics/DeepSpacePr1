@@ -7,13 +7,12 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import edu.wpi.first.wpilibj.command.Command;
 
-public class MoveElbowUp extends Command {
-  private final double ELBOW_SPEED = -0.6;
-  public MoveElbowUp() {
-    requires(Robot.m_elbowJoint);
+public class GripClose extends Command {
+  public GripClose() {
+    requires(Robot.m_manipulator);
   }
 
   // Called just before this Command runs the first time
@@ -24,9 +23,8 @@ public class MoveElbowUp extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.m_elbowJoint.moveJointMotor(ELBOW_SPEED);
+    Robot.m_manipulator.setGripBackward();
   }
-  //ELBOY_SPEED
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
@@ -37,7 +35,7 @@ public class MoveElbowUp extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.m_elbowJoint.moveJointMotor(0.0);
+    Robot.m_manipulator.setGripOff();
   }
 
   // Called when another command which requires one or more of the same

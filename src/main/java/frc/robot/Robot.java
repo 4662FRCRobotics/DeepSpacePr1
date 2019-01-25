@@ -29,6 +29,7 @@ public class Robot extends TimedRobot {
   public static Vision m_vision;
   public static ARMJoint m_elbowJoint;
   public static ARMJoint m_wristJoint;
+  public static Manipulator m_manipulator;
   public static OI m_oi;
   //Command m_autonomousCommand;
   //SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -44,6 +45,7 @@ public class Robot extends TimedRobot {
     m_vision = new Vision();
     m_elbowJoint = new ARMJoint("elbow");
     m_wristJoint = new ARMJoint("wrist");
+    m_manipulator = new Manipulator();
     m_oi = new OI();
 
     /** m_chooser.setDefaultOption("Default Auto", new ExampleCommand());

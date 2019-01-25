@@ -13,8 +13,7 @@ import frc.robot.Robot;
 public class MoveWristDown extends Command {
   private final double WRIST_SPEED = 0.6;
   public MoveWristDown() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+    requires(Robot.m_wristJoint);
   }
 
   // Called just before this Command runs the first time
