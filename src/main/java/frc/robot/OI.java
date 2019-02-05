@@ -55,22 +55,22 @@ public class OI {
   private Joystick m_driveStick;
 
   private JoystickButton m_visionLightButton;
-
   private JoystickButton m_moveElbowUpButton;
   private JoystickButton m_moveElbowDownButton;
-  private JoystickButton m_moveWristDownButton;
   private JoystickButton m_moveWristUpButton;
-
-  private JoystickButton m_openGripButton;
-  private JoystickButton m_closeGripButton;
+  private JoystickButton m_moveWristDownButton;
+  private JoystickButton m_toggleGripButton;
+  private JoystickButton m_pushBall;
 
   private final int VISION_LIGHT_BUTTON = 12;
   private final int UP_ELBOW = 5; 
   private final int DOWN_ELBOW = 3;   
   private final int UP_WRIST = 6;
   private final int DOWN_WRIST = 4;
-  private final int OPEN_GRIP = 1;
-  private final int CLOSE_GRIP = 2;
+  private final int TOGGLE_GRIP = 2;
+  private final int PUSH_BALL = 1;
+
+  private final double GRIP_TIME = 0.2;
 
   // I just lost the game
 
@@ -92,11 +92,11 @@ public class OI {
     m_moveWristDownButton = new JoystickButton(m_driveStick, DOWN_WRIST);
     m_moveWristDownButton.whileHeld(new MoveWristDown());
 
-    m_openGripButton = new JoystickButton(m_driveStick, OPEN_GRIP);
-    m_openGripButton.whileHeld(new GripOpen());
+    m_toggleGripButton = new JoystickButton(m_driveStick, TOGGLE_GRIP);
+    m_toggleGripButton.whenPressed(new ToggleGrip(GRIP_TIME));
 
-    m_closeGripButton = new JoystickButton(m_driveStick, CLOSE_GRIP);
-    m_closeGripButton.whileHeld(new GripClose());
+    m_pushBall = new JoystickButton(m_driveStick, PUSH_BALL);
+    m_pushBall.whenPressed(new LaunchBall());
   }
 
   // velocity * 2 / (throttle + 3)
