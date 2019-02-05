@@ -73,7 +73,7 @@ public class Drive extends Subsystem {
   }
 
   public void arcadeDrive(double velocity, double heading){
-    double dDriveInvert = 1;
+    double dDriveInvert = -1;
     m_robotDrive.arcadeDrive(velocity * dDriveInvert, heading);
   }
 }

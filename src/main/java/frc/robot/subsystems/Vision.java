@@ -42,7 +42,7 @@ public class Vision extends Subsystem {
     if (m_bLightOn){
       m_ledController.set(0);
     } else {
-      m_ledController.set(-1);
+      m_ledController.set(1);
     }
     m_bLightOn = !m_bLightOn;
   }
