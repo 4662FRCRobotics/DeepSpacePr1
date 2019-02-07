@@ -89,15 +89,21 @@ public class ARMJoint extends Subsystem {
   }
 
   public void setBrakeForward(){
-    m_jointBrake.set(DoubleSolenoid.Value.kForward);
+    if(m_bHasBrake){
+      m_jointBrake.set(DoubleSolenoid.Value.kForward);
+    }
   }
 
   public void setBrakeBackward(){
-    m_jointBrake.set(DoubleSolenoid.Value.kReverse);
+    if(m_bHasBrake){
+      m_jointBrake.set(DoubleSolenoid.Value.kReverse);
+    }
   }
 
   public void setBrakeOff(){
-    m_jointBrake.set(DoubleSolenoid.Value.kOff);
+    if(m_bHasBrake){
+      m_jointBrake.set(DoubleSolenoid.Value.kOff);
+    }
   }
 }
 

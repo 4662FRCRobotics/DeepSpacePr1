@@ -37,6 +37,7 @@ public class SetBraken extends TimedCommand {
   @Override
   protected void end() {
     Robot.m_elbowJoint.setBrakeOff();
+    Robot.m_oi.clearBrakeOn();
   }
 
   // Called when another command which requires one or more of the same
