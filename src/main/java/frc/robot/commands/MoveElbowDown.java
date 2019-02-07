@@ -13,8 +13,7 @@ import frc.robot.Robot;
 public class MoveElbowDown extends Command {
   private final double ELBOW_SPEED = 0.6;
   public MoveElbowDown() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+    requires(Robot.m_elbowJoint);
   }
 
   // Called just before this Command runs the first time
