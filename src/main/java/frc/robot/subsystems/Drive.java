@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
+/* Copyright (C) 2018 FIRST. All Rights Reserved.                             */
+/* open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
@@ -11,27 +11,24 @@ import frc.robot.commands.ArcadeDrive;
 import frc.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
-//import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
-
+ // I did just lost the game?
 /**
  * Add your docs here.
  */
 public class Drive extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
-  /*
-  private WPI_TalonSRX m_leftController1;
-  private WPI_TalonSRX m_leftController2;
-  private WPI_TalonSRX m_rightController1;
-  private WPI_TalonSRX m_rightController2;
-  */
+  //The New World Order
 
   private CANSparkMax m_leftController1;
   private CANSparkMax m_leftController2;
@@ -43,17 +40,30 @@ public class Drive extends Subsystem {
 
   private DifferentialDrive m_robotDrive;
 
+  private CANEncoder m_leftEncoder1;
+  private CANEncoder m_rightEncoder1;
+
+  private final double kRAMP_RATE = 0.5;
+  private final double kENCODER_PULSES_PER_REV = 1024;
+  private final double kGEARBOX_REDUCTION = 1;
+  private final double kTIRE_SIZE = 7.9; 
+
   public Drive(){
-   /*
-    m_leftController1 = new WPI_TalonSRX(Robot.m_robotMap.getPortNumber("leftController1"));
-    m_leftController2 = new WPI_TalonSRX(Robot.m_robotMap.getPortNumber("leftController2"));
-    m_rightController1 = new WPI_TalonSRX(Robot.m_robotMap.getPortNumber("rightController1"));
-    m_rightController2 = new WPI_TalonSRX(Robot.m_robotMap.getPortNumber("rightController2"));
-    */
+
     m_leftController1 = new CANSparkMax(Robot.m_robotMap.getPortNumber("leftController1"), MotorType.kBrushless);
     m_leftController2 = new CANSparkMax(Robot.m_robotMap.getPortNumber("leftController2"), MotorType.kBrushless);
     m_rightController1 = new CANSparkMax(Robot.m_robotMap.getPortNumber("rightController1"), MotorType.kBrushless);
     m_rightController2 = new CANSparkMax(Robot.m_robotMap.getPortNumber("rightController2"), MotorType.kBrushless);
+
+    m_leftController1.setIdleMode(CANSparkMax.IdleMode.kCoast);
+    m_leftController2.setIdleMode(CANSparkMax.IdleMode.kCoast);
+    m_rightController1.setIdleMode(CANSparkMax.IdleMode.kCoast);
+    m_rightController2.setIdleMode(CANSparkMax.IdleMode.kCoast);
+
+    m_leftController1.setRampRate(kRAMP_RATE);
+    m_leftController2.setRampRate(kRAMP_RATE);
+    m_rightController1.setRampRate(kRAMP_RATE);
+    m_rightController2.setRampRate(kRAMP_RATE);
 
     m_leftControlGroup = new SpeedControllerGroup(m_leftController1, m_leftController2);
     m_rightControlGroup = new SpeedControllerGroup(m_rightController1, m_rightController2);
@@ -62,12 +72,13 @@ public class Drive extends Subsystem {
     m_rightControlGroup.setInverted(false);
 
     m_robotDrive = new DifferentialDrive(m_leftControlGroup, m_rightControlGroup);
+
+    m_leftEncoder1 = m_leftController1.getEncoder();
+    m_rightEncoder1 = m_rightController1.getEncoder();
   }
 
   @Override
   public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
     setDefaultCommand(new ArcadeDrive());
     
   }
@@ -75,5 +86,11 @@ public class Drive extends Subsystem {
   public void arcadeDrive(double velocity, double heading){
     double dDriveInvert = -1;
     m_robotDrive.arcadeDrive(velocity * dDriveInvert, heading);
+    smartDashBoardDisplay();
+  }
+
+  private void smartDashBoardDisplay(){
+    SmartDashboard.putNumber("leftencoder", m_leftEncoder1.getPosition());
+    SmartDashboard.putNumber("rightencoder", m_rightEncoder1.getPosition());
   }
 }
