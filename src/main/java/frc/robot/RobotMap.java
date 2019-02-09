@@ -158,6 +158,10 @@ public class RobotMap {
 		return 	getIntValue("device", "name", nodeValue, tagname, iDefaultVal);
 		
 	}
+
+	public int getARMJoint(String nodeValue, String tagname) {
+		return 	getIntValue("armjoint", "name", nodeValue, tagname, -1);
+	}
 	
 	public int getPortNumber(String nodeValue){
 		return getIntValue("device", "name", nodeValue, "port", -1);
