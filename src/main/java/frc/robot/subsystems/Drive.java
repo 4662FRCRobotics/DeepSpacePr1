@@ -28,7 +28,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Drive extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
-  //The New World Order
+  //The New World Order is wacthing you.
 
   private CANSparkMax m_leftController1;
   private CANSparkMax m_leftController2;
@@ -44,8 +44,8 @@ public class Drive extends Subsystem {
   private CANEncoder m_rightEncoder1;
 
   private final double kRAMP_RATE = 0.5;
-  private final double kENCODER_PULSES_PER_REV = 1024;
-  private final double kGEARBOX_REDUCTION = 1;
+  private final double kENCODER_PULSES_PER_REV = 1;
+  private final double kGEARBOX_REDUCTION = (50/12) * (60/14);
   private final double kTIRE_SIZE = 7.9; 
 
   public Drive(){
@@ -90,7 +90,8 @@ public class Drive extends Subsystem {
   }
 
   private void smartDashBoardDisplay(){
-    SmartDashboard.putNumber("leftencoder", m_leftEncoder1.getPosition());
-    SmartDashboard.putNumber("rightencoder", m_rightEncoder1.getPosition());
+    double distancePerEncoderTic =  kGEARBOX_REDUCTION / (kTIRE_SIZE * Math.PI);
+    SmartDashboard.putNumber("leftencoder", m_leftEncoder1.getPosition() / distancePerEncoderTic);
+    SmartDashboard.putNumber("rightencoder", m_rightEncoder1.getPosition() / distancePerEncoderTic);
   }
 }
