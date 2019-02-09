@@ -7,12 +7,14 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.TimedCommand;
 import frc.robot.Robot;
 
-public class GripOpen extends Command {
-  public GripOpen() {
+public class GripOpen extends TimedCommand {
+  public GripOpen(double timeout) {
+    super(timeout);
     requires(Robot.m_manipulator);
+    
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
@@ -26,12 +28,6 @@ public class GripOpen extends Command {
   @Override
   protected void execute() {
     Robot.m_manipulator.setGripForward();
-  }
-
-  // Make this return true when this Command no longer needs to run execute()
-  @Override
-  protected boolean isFinished() {
-    return false;
   }
 
   // Called once after isFinished returns true

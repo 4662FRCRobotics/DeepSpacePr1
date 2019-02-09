@@ -21,6 +21,8 @@ public class Manipulator extends Subsystem {
   private DoubleSolenoid m_grip;
   private DoubleSolenoid m_ballThrower;
 
+  private boolean m_bIsGripOpen = true;
+
   private final int BALL_THROWER_FORWARD = 2;
   private final int BALL_THROWER_BACKWARD = 3;
 
@@ -42,19 +44,18 @@ public class Manipulator extends Subsystem {
   }
 
   public boolean isGripOpen(){
-    DoubleSolenoid.Value currentSolenoidValue = m_grip.get();
-    boolean bisOpen = currentSolenoidValue == DoubleSolenoid.Value.kForward;
-
-    SmartDashboard.putBoolean("Grip solenoid value", bisOpen);
-    return bisOpen;
+    SmartDashboard.putBoolean("Grip solenoid value", m_bIsGripOpen);
+    return m_bIsGripOpen;
   }
 
   public void setGripForward(){
     m_grip.set(DoubleSolenoid.Value.kForward);
+    m_bIsGripOpen = true;
   }
 
   public void setGripBackward(){
     m_grip.set(DoubleSolenoid.Value.kReverse);
+    m_bIsGripOpen = false;
   }
 
   public void setGripOff(){
@@ -62,11 +63,11 @@ public class Manipulator extends Subsystem {
   }
 
   public void PushBall(){
-    m_ballThrower.set(DoubleSolenoid.Value.kForward);
+    m_ballThrower.set(DoubleSolenoid.Value.kReverse);
   }
 
   public void ResetPushBall(){
-    m_ballThrower.set(DoubleSolenoid.Value.kReverse);
+    m_ballThrower.set(DoubleSolenoid.Value.kForward);
   }
 
   public void StopPushBall(){

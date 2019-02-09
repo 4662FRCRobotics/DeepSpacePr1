@@ -10,6 +10,7 @@ package frc.robot;
 import frc.robot.commands.*;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.InternalButton;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -18,33 +19,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-  //// CREATING BUTTONS
-  // One type of button is a joystick button which is any button on a
-  //// joystick.
-  // You create one by telling it which joystick it's on and which button
-  // number it is.
-  // Joystick stick = new Joystick(port);
-  // Button button = new JoystickButton(stick, buttonNumber);  We lost the game.
-
-  // There are a few additional built in buttons you can use. Additionally,
-  // by subclassing Button you can create custom triggers and bind those to
-  // commands the same as any other Button.
-
-  //// TRIGGERING COMMANDS WITH BUTTONS
-  // Once you have a button, it's trivial to bind it to a button in one of
-  // three ways:
-
-  // Start the command when the button is pressed and let it run the command
-  // until it is finished as determined by it's isFinished method.
-  // button.whenPressed(new ExampleCommand());
-
-  // Run the command while the button is being held down and interrupt it once
-  // the button is released.
-  // button.whileHeld(new ExampleCommand());
-
-  // Start the command when the button is released and let it run the command
-  // until it is finished as determined by it's isFinished method.
-  // button.whenReleased(new ExampleCommand());
   // Vamos
 
   // 1 : trigger
@@ -61,6 +35,8 @@ public class OI {
   private JoystickButton m_moveWristDownButton;
   private JoystickButton m_toggleGripButton;
   private JoystickButton m_pushBall;
+
+  private InternalButton m_setBrake;
 
   private final int VISION_LIGHT_BUTTON = 12;
   private final int UP_ELBOW = 5; 
@@ -97,6 +73,9 @@ public class OI {
 
     m_pushBall = new JoystickButton(m_driveStick, PUSH_BALL);
     m_pushBall.whenPressed(new LaunchBall());
+
+    m_setBrake = new InternalButton();
+    m_setBrake.whenPressed(new SetBraken(0.1));
   }
 
   // velocity * 2 / (throttle + 3)
@@ -107,5 +86,13 @@ public class OI {
   public double getHeading(){
     
     return m_driveStick.getTwist() * 2 / (m_driveStick.getThrottle() + 3);
+  }
+
+  public void setBrakeOn(){
+    m_setBrake.setPressed(true);
+  }
+
+  public void clearBrakeOn(){
+    m_setBrake.setPressed(false);
   }
 }

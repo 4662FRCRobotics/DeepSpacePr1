@@ -10,6 +10,7 @@ package frc.robot.commands;
 import frc.robot.Robot;
 import frc.robot.commands.PushBall;
 import frc.robot.commands.PullBall;
+import frc.robot.commands.GripOpen;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class LaunchBall extends CommandGroup {
@@ -21,6 +22,7 @@ public class LaunchBall extends CommandGroup {
     // e.g. addSequential(new Command1());
     // addSequential(new Command2());
     // these will run in order.
+    addSequential(new GripOpen(I_LOST_THE_GAME));
     addSequential(new PushBall(I_LOST_THE_GAME));
     addSequential(new PullBall(I_LOST_THE_GAME));
 

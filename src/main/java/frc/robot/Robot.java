@@ -43,8 +43,8 @@ public class Robot extends TimedRobot {
     m_robotMap = new RobotMap("/home/lvuser/robot.xml");
     m_drive = new Drive();
     m_vision = new Vision();
-    m_elbowJoint = new ARMJoint("elbow");
-    m_wristJoint = new ARMJoint("wrist");
+    m_elbowJoint = new ARMJoint("elbow", true);
+    m_wristJoint = new ARMJoint("wrist", false);
     m_manipulator = new Manipulator();
     m_oi = new OI();
 
