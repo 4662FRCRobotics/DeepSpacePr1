@@ -90,7 +90,7 @@ public class Drive extends Subsystem {
   }
 
   private void smartDashBoardDisplay(){
-    double distancePerEncoderTic =  kGEARBOX_REDUCTION / (kTIRE_SIZE * Math.PI);
+    double distancePerEncoderTic =  kGEARBOX_REDUCTION / (kTIRE_SIZE * Math.PI) / 12;
     SmartDashboard.putNumber("leftencoder", m_leftEncoder1.getPosition() / distancePerEncoderTic);
     SmartDashboard.putNumber("rightencoder", m_rightEncoder1.getPosition() / distancePerEncoderTic);
   }
