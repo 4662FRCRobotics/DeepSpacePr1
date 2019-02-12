@@ -7,39 +7,41 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import edu.wpi.first.wpilibj.command.TimedCommand;
 
-public class MoveElbowUp extends Command {
-  private final double ELBOW_SPEED = -0.6;
-  public MoveElbowUp() {
-    requires(Robot.m_elbowJoint);
+public class ToggleGrip extends TimedCommand {
+
+  private boolean m_bisGripOpen;
+
+  public ToggleGrip(double timeout) {
+    // Use requires() here to declare subsystem dependencies
+    // eg. requires(chassis);
+    super(timeout);
+    requires(Robot.m_manipulator);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.m_elbowJoint.setBrakeForward();
+    m_bisGripOpen = Robot.m_manipulator.isGripOpen();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.m_elbowJoint.moveJointMotor(ELBOW_SPEED);
-  }
-  //ELBOY_SPEED
-
-  // Make this return true when this Command no longer needs to run execute()
-  @Override
-  protected boolean isFinished() {
-    return false;
+    if (m_bisGripOpen){
+      Robot.m_manipulator.setGripBackward();
+    }
+    else{
+      Robot.m_manipulator.setGripForward();
+    }
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.m_elbowJoint.moveJointMotor(0.0);
-    Robot.m_oi.setBrakeOn();
+    Robot.m_manipulator.setGripOff();
   }
 
   // Called when another command which requires one or more of the same

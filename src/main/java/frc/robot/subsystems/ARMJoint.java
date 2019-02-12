@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.Robot;
 
@@ -26,6 +27,7 @@ public class ARMJoint extends Subsystem {
   
   private final String MOTORNUMBERONE = "1";
   private final String MOTORNUMBERTWO = "2";
+<<<<<<< HEAD
   private final String PARK = "park";
   private final String BALL1 = "ball1";
   private final String BALL2 = "ball2";
@@ -44,17 +46,26 @@ public class ARMJoint extends Subsystem {
   private int m_iPort3EV;
 
 
+=======
+  private final int MODULE_NUMBER = 1;
+  private final int BRAKE_FORWARD = 0;
+  private final int BRAKE_BACKWARD = 1;
+>>>>>>> 3f1d0fc8948fc3103cb3c5a6633434ad86cf7905
 
   private WPI_TalonSRX m_jointMotor1;
   private WPI_TalonSRX m_jointMotor2;
 
+  private  DoubleSolenoid m_jointBrake;
+  
+  private boolean m_bHasBrake;
+
   private SpeedControllerGroup m_jointMotorGroup;
 
-  public ARMJoint(String motorString){
-    this(1, motorString);
+  public ARMJoint(String motorString, boolean hasBrake){
+    this(1, motorString, hasBrake);
   }
 
-  public ARMJoint(int motorCount, String motorString){
+  public ARMJoint(int motorCount, String motorString, boolean hasBrake){
 
     m_iParkEV = Robot.m_robotMap.getARMJoint(motorString, PARK);
     m_iBall1EV = Robot.m_robotMap.getARMJoint(motorString, BALL1 );
@@ -75,7 +86,7 @@ public class ARMJoint extends Subsystem {
     if (motorCount > 2){
       motorCount = 2;
     }
-    else if (motorCount < 1){
+    else if  (motorCount < 1){
       motorCount = 1;
     }
 
@@ -97,6 +108,11 @@ public class ARMJoint extends Subsystem {
 
     m_jointMotorGroup.setInverted(true);
 
+    m_bHasBrake = hasBrake;
+    if(m_bHasBrake){
+      m_jointBrake = new DoubleSolenoid(MODULE_NUMBER, BRAKE_FORWARD, BRAKE_BACKWARD);
+    }
+
   }
 
   @Override
@@ -108,4 +124,23 @@ public class ARMJoint extends Subsystem {
   public void moveJointMotor(double speed) {
    m_jointMotorGroup.set(speed); 
   }
+
+  public void setBrakeForward(){
+    if(m_bHasBrake){
+      m_jointBrake.set(DoubleSolenoid.Value.kForward);
+    }
+  }
+
+  public void setBrakeBackward(){
+    if(m_bHasBrake){
+      m_jointBrake.set(DoubleSolenoid.Value.kReverse);
+    }
+  }
+
+  public void setBrakeOff(){
+    if(m_bHasBrake){
+      m_jointBrake.set(DoubleSolenoid.Value.kOff);
+    }
+  }
 }
+
