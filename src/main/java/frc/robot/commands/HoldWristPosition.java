@@ -7,27 +7,25 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class MoveWristUp extends Command {
-  private final double WRIST_SPEED = -0.6;
-  public MoveWristUp() {
+public class HoldWristPosition extends Command {
+  public HoldWristPosition() {
     requires(Robot.m_wristJoint);
-    // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    Robot.m_wristJoint.holdPosition();
+    Robot.m_oi.clearWristOn();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.m_wristJoint.moveJointMotor(WRIST_SPEED);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -39,14 +37,11 @@ public class MoveWristUp extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.m_wristJoint.moveJointMotor(0.0);
-    Robot.m_oi.setHoldWristOn();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    end();
   }
 }

@@ -37,6 +37,7 @@ public class OI {
   private JoystickButton m_pushBall;
 
   private InternalButton m_setBrake;
+  private InternalButton m_holdWristPosition;
 
   private final int VISION_LIGHT_BUTTON = 12;
   private final int UP_ELBOW = 5; 
@@ -76,6 +77,9 @@ public class OI {
 
     m_setBrake = new InternalButton();
     m_setBrake.whenPressed(new SetBraken(0.1));
+
+    m_holdWristPosition = new InternalButton();
+    m_holdWristPosition.whenPressed(new HoldWristPosition());
   }
 
   // velocity * 2 / (throttle + 3)
@@ -94,5 +98,12 @@ public class OI {
 
   public void clearBrakeOn(){
     m_setBrake.setPressed(false);
+  }
+  public void setHoldWristOn(){
+    m_holdWristPosition.setPressed(true);
+  }
+
+  public void clearWristOn(){
+    m_holdWristPosition.setPressed(false);
   }
 }

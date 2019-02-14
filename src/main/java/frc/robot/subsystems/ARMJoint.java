@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
@@ -68,6 +69,8 @@ public class ARMJoint extends Subsystem {
   
   private boolean m_bHasBrake;
 
+  private String m_strMotorString;
+
   private SpeedControllerGroup m_jointMotorGroup;
 
   public ARMJoint(String motorString, boolean hasBrake){
@@ -104,7 +107,8 @@ public class ARMJoint extends Subsystem {
     m_jointMotor1.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
     m_jointMotor1.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
     m_jointMotor1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
-    m_jointMotor1.setSensorPhase(false);
+    m_jointMotor1.setSensorPhase(true);
+    m_jointMotor1.configClearPositionOnLimitR(true, 0);
 
     /**
      * private double m_dArmJointPIDP;
@@ -112,7 +116,7 @@ public class ARMJoint extends Subsystem {
      * private double m_dArmJointPIDD;
      * private double m_dArmJointPIDTolerance;
      * private double m_dArmJointPIDSpeed;
-     * private double m_dArmJointFeedForward;
+     * 
      * private PIDController m_ArmJointPIDCntl;
      */
 
@@ -120,9 +124,10 @@ public class ARMJoint extends Subsystem {
     m_dArmJointPIDI = Robot.m_robotMap.getPIDIVal(motorString, 0.0);
     m_dArmJointPIDD = Robot.m_robotMap.getPIDDVal(motorString, 0.0);
     m_dArmJointPIDTolerance = Robot.m_robotMap.getPIDToleranceVal(motorString, 100);
+    m_dArmJointFeedForward = Robot.m_robotMap.getPIDFfVal(motorString, 0.1);
     m_dArmJointPIDSpeed = 1;
 
-    m_ArmJointPIDCntl = new PIDController(m_dArmJointPIDP, m_dArmJointPIDI, m_dArmJointPIDD, new getArmJointEncoder(), new putArmJointSpeed());
+    m_ArmJointPIDCntl = new PIDController(m_dArmJointPIDP, m_dArmJointPIDI, m_dArmJointPIDD, m_dArmJointFeedForward, new getArmJointEncoder(), new putArmJointSpeed());
     m_ArmJointPIDCntl.setContinuous(false);
 
     switch (motorCount){
@@ -143,9 +148,9 @@ public class ARMJoint extends Subsystem {
     if(m_bHasBrake){
       m_jointBrake = new DoubleSolenoid(MODULE_NUMBER, BRAKE_FORWARD, BRAKE_BACKWARD);
     }
-
+    m_strMotorString = motorString;
   }
-
+  
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
@@ -153,7 +158,12 @@ public class ARMJoint extends Subsystem {
   }
 
   public void moveJointMotor(double speed) {
-   m_jointMotorGroup.set(speed); 
+   m_jointMotorGroup.set(speed);
+   displayJointMotor(speed);
+  }
+
+  private void displayJointMotor(double speed){
+    SmartDashboard.putNumber(m_strMotorString + "Encoder",m_jointMotor1.getSelectedSensorPosition(0) );
   }
 
   public void setBrakeForward(){
@@ -172,6 +182,10 @@ public class ARMJoint extends Subsystem {
     if(m_bHasBrake){
       m_jointBrake.set(DoubleSolenoid.Value.kOff);
     }
+  }
+
+  public void holdPosition() {
+    enableArmJointPID(m_jointMotor1.getSelectedSensorPosition(0));
   }
 
   public void enableArmJointPID(double target){

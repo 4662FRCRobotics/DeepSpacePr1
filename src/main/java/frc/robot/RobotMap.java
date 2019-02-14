@@ -150,6 +150,11 @@ public class RobotMap {
 		
 	}
 	
+	public double getPIDFfVal(String nodeValue, double tVal){
+		return 	getDoubleValue("pid", "pidcontroller", nodeValue, "feedforward", tVal);
+	
+	}
+
 	public double getDeviceDoubleVal(String nodeValue, String tagname, double dDefaultVal){
 		return 	getDoubleValue("device", "name", nodeValue, tagname, dDefaultVal);
 		
