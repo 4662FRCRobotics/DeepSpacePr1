@@ -10,42 +10,42 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class MoveElbowUp extends Command {
-  private final double ELBOW_SPEED = -0.6;
-  public MoveElbowUp() {
+public class SetArmLevel extends Command {
+
+  private String m_StrArmLevel;
+
+  public SetArmLevel(String armLevel) {
     requires(Robot.m_elbowJoint);
+    requires(Robot.m_wristJoint);
+    m_StrArmLevel = armLevel;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.m_elbowJoint.setBrakeForward();
-    // Robot.m_elbowJoint.moveJointMotor(ELBOW_SPEED);
+    Robot.m_wristJoint.setArmLevel(m_StrArmLevel);
+    Robot.m_elbowJoint.setArmLevel(m_StrArmLevel);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
   }
-  //ELBOY_SPEED
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return true;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.m_elbowJoint.moveJointMotor(0.0);
-    Robot.m_oi.setBrakeOn();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    end();
   }
 }

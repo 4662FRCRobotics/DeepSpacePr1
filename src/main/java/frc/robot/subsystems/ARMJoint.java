@@ -65,7 +65,9 @@ public class ARMJoint extends Subsystem {
   private double m_dArmJointFeedForward;
   private PIDController m_ArmJointPIDCntl;
 
-  private  DoubleSolenoid m_jointBrake;
+  private double m_dTarget;
+
+  private DoubleSolenoid m_jointBrake;
   
   private boolean m_bHasBrake;
 
@@ -163,11 +165,12 @@ public class ARMJoint extends Subsystem {
 
   public void moveJointMotor(double speed) {
    m_jointMotorGroup.set(speed);
-   displayJointMotor(speed);
+   displayJointMotor();
   }
 
-  private void displayJointMotor(double speed){
-    SmartDashboard.putNumber(m_strMotorString + "Encoder",m_jointMotor1.getSelectedSensorPosition(0) );
+  public void displayJointMotor(){
+    SmartDashboard.putNumber(m_strMotorString + "Encoder", m_jointMotor1.getSelectedSensorPosition(0) );
+    SmartDashboard.putNumber(m_strMotorString + "Target", m_dTarget);
   }
 
   public void setBrakeForward(){
@@ -192,13 +195,43 @@ public class ARMJoint extends Subsystem {
     enableArmJointPID(m_jointMotor1.getSelectedSensorPosition(0));
   }
 
+  public void setArmLevel(String levelName){
+    switch(levelName) {
+      case PARK:
+        enableArmJointPID(m_iParkEV);
+        break;
+      case BALL1:
+        enableArmJointPID(m_iBall1EV);
+        break;
+      case BALL2:
+        enableArmJointPID(m_iBall2EV);
+        break;
+      case BALL3:
+        enableArmJointPID(m_iBall3EV);
+        break;
+      case PORT1:
+        enableArmJointPID(m_iPort1EV);
+        break;
+      case PORT2:
+        enableArmJointPID(m_iPort2EV);
+        break;
+      case PORT3:
+        enableArmJointPID(m_iPort3EV);
+        break;
+      default:
+    }
+  }
+
   public void enableArmJointPID(double target){
+
+    m_dTarget = target;
 
     m_ArmJointPIDCntl.setOutputRange(-Math.abs(m_dArmJointPIDSpeed), Math.abs(m_dArmJointPIDSpeed));
     m_ArmJointPIDCntl.setSetpoint(target);
     m_ArmJointPIDCntl.setAbsoluteTolerance(m_dArmJointPIDTolerance);
-    m_ArmJointPIDCntl.enable();
-
+    if (!m_ArmJointPIDCntl.isEnabled()) {
+      m_ArmJointPIDCntl.enable();
+    }
   }
 
   public void disableArmJointPID(){

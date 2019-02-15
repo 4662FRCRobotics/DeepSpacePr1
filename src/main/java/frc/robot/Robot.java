@@ -65,7 +65,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-
+    m_elbowJoint.displayJointMotor();
+    m_wristJoint.displayJointMotor();
   }
 
   /**
