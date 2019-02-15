@@ -25,12 +25,12 @@ public class SetBraken extends TimedCommand {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    Robot.m_elbowJoint.setBrakeBackward();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.m_elbowJoint.setBrakeBackward();
   }
 
   // Called once after timeout

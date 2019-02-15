@@ -23,6 +23,7 @@ public class Vision extends Subsystem {
   private boolean m_bLightOn;
 
   public Vision(){
+
     m_ledController = new Spark(Robot.m_robotMap.getPortNumber("ledController"));
     m_bLightOn = false;
   }
@@ -34,7 +35,7 @@ public class Vision extends Subsystem {
     
   }
 
-  public boolean IsLightOb() {
+  public boolean IsLightOn() {
     return m_bLightOn;
   }
 

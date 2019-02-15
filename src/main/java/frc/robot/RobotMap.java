@@ -150,6 +150,11 @@ public class RobotMap {
 		
 	}
 	
+	public double getPIDFfVal(String nodeValue, double tVal){
+		return 	getDoubleValue("pid", "pidcontroller", nodeValue, "feedforward", tVal);
+	
+	}
+
 	public double getDeviceDoubleVal(String nodeValue, String tagname, double dDefaultVal){
 		return 	getDoubleValue("device", "name", nodeValue, tagname, dDefaultVal);
 		
@@ -157,6 +162,10 @@ public class RobotMap {
 	public int getDeviceIntVal(String nodeValue, String tagname, int iDefaultVal){
 		return 	getIntValue("device", "name", nodeValue, tagname, iDefaultVal);
 		
+	}
+
+	public int getARMJoint(String nodeValue, String tagname) {
+		return 	getIntValue("armjoint", "name", nodeValue, tagname, -1);
 	}
 	
 	public int getPortNumber(String nodeValue){
