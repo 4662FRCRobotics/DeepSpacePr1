@@ -73,6 +73,8 @@ public class ARMJoint extends Subsystem {
 
   private SpeedControllerGroup m_jointMotorGroup;
 
+  private final double kRAMP_RATE = 0.5;
+
   public ARMJoint(String motorString, boolean hasBrake){
     this(1, motorString, hasBrake);
   }
@@ -109,6 +111,8 @@ public class ARMJoint extends Subsystem {
     m_jointMotor1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
     m_jointMotor1.setSensorPhase(true);
     m_jointMotor1.configClearPositionOnLimitR(true, 0);
+    m_jointMotor1.configOpenloopRamp(kRAMP_RATE);
+    m_jointMotor1.configClosedloopRamp(kRAMP_RATE);
 
     /**
      * private double m_dArmJointPIDP;
