@@ -15,16 +15,17 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class LaunchBall extends CommandGroup {
 
-  private final double I_LOST_THE_GAME = 0.2;
+  private final double SHORT_DURATION = 0.2;
+  private final double LONG_DURATION = 1.0;
 
   public LaunchBall() {
     // Add Commands here:
     // e.g. addSequential(new Command1());
     // addSequential(new Command2());
     // these will run in order.
-    addSequential(new GripOpen(I_LOST_THE_GAME));
-    addSequential(new PushBall(I_LOST_THE_GAME));
-    addSequential(new PullBall(I_LOST_THE_GAME));
+    addSequential(new GripOpen(SHORT_DURATION));
+    addSequential(new PushBall(LONG_DURATION));
+    addSequential(new PullBall(SHORT_DURATION));
 
     // To run multiple commands at the same time,
     // use addParallel()

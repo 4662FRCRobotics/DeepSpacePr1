@@ -44,8 +44,8 @@ public class ARMJoint extends Subsystem {
   private final String PORT2 = "port2";
   private final String PORT3 = "port3";
   private final int MODULE_NUMBER = 1;
-  private final int BRAKE_FORWARD = 0;
-  private final int BRAKE_BACKWARD = 1;
+  private final int BRAKE_FORWARD = 5;
+  private final int BRAKE_BACKWARD = 4;
 
   private int m_iParkEV;
   private int m_iBall1EV;
