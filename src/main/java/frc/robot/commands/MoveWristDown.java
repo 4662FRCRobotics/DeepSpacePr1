@@ -38,7 +38,7 @@ public class MoveWristDown extends Command {
   @Override
   protected void end() {
     Robot.m_wristJoint.moveJointMotor(0.0);
-    Robot.m_oi.setHoldWristOn();
+    //Robot.m_oi.setHoldWristOn();
   }
 
   // Called when another command which requires one or more of the same

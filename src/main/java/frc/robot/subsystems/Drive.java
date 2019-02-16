@@ -60,10 +60,10 @@ public class Drive extends Subsystem {
     m_rightController1.setIdleMode(CANSparkMax.IdleMode.kCoast);
     m_rightController2.setIdleMode(CANSparkMax.IdleMode.kCoast);
 
-    m_leftController1.setRampRate(kRAMP_RATE);
-    m_leftController2.setRampRate(kRAMP_RATE);
-    m_rightController1.setRampRate(kRAMP_RATE);
-    m_rightController2.setRampRate(kRAMP_RATE);
+    m_leftController1.setOpenLoopRampRate(kRAMP_RATE);
+    m_leftController2.setOpenLoopRampRate(kRAMP_RATE);
+    m_rightController1.setOpenLoopRampRate(kRAMP_RATE);
+    m_rightController2.setOpenLoopRampRate(kRAMP_RATE);
 
     m_leftControlGroup = new SpeedControllerGroup(m_leftController1, m_leftController2);
     m_rightControlGroup = new SpeedControllerGroup(m_rightController1, m_rightController2);

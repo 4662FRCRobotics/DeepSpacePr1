@@ -110,11 +110,11 @@ public class ARMJoint extends Subsystem {
     m_jointMotor1.setNeutralMode(NeutralMode.Brake);
     m_jointMotor1.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
     m_jointMotor1.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
-    m_jointMotor1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+    m_jointMotor1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
     m_jointMotor1.setSensorPhase(true);
     m_jointMotor1.configClearPositionOnLimitR(true, 0);
     m_jointMotor1.configOpenloopRamp(kRAMP_RATE);
-    m_jointMotor1.configClosedloopRamp(kRAMP_RATE);
+    //m_jointMotor1.configClosedloopRamp(kRAMP_RATE);
 
     /**
      * private double m_dArmJointPIDP;
