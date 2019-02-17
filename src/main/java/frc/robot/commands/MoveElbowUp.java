@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 public class MoveElbowUp extends Command {
-  private final double ELBOW_SPEED = -0.6;
+  private final double ELBOW_SPEED = -0.8;
   public MoveElbowUp() {
     requires(Robot.m_elbowJoint);
   }

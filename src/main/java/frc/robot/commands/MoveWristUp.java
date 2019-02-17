@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 public class MoveWristUp extends Command {
-  private final double WRIST_SPEED = 0.6;
+  private final double WRIST_SPEED = 0.7;
   public MoveWristUp() {
     requires(Robot.m_wristJoint);
     // Use requires() here to declare subsystem dependencies
