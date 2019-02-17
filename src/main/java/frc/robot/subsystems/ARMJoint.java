@@ -44,8 +44,8 @@ public class ARMJoint extends Subsystem {
   private final String PORT2 = "port2";
   private final String PORT3 = "port3";
   private final int MODULE_NUMBER = 1;
-  private final int BRAKE_FORWARD = 0;
-  private final int BRAKE_BACKWARD = 1;
+  private final int BRAKE_FORWARD = 5;
+  private final int BRAKE_BACKWARD = 4;
 
   private int m_iParkEV;
   private int m_iBall1EV;
@@ -110,11 +110,11 @@ public class ARMJoint extends Subsystem {
     m_jointMotor1.setNeutralMode(NeutralMode.Brake);
     m_jointMotor1.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
     m_jointMotor1.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
-    m_jointMotor1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+    m_jointMotor1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
     m_jointMotor1.setSensorPhase(true);
     m_jointMotor1.configClearPositionOnLimitR(true, 0);
     m_jointMotor1.configOpenloopRamp(kRAMP_RATE);
-    m_jointMotor1.configClosedloopRamp(kRAMP_RATE);
+    //m_jointMotor1.configClosedloopRamp(kRAMP_RATE);
 
     /**
      * private double m_dArmJointPIDP;

@@ -100,18 +100,25 @@ public class OI {
     m_pushBall.whenPressed(new LaunchBall());
 
     m_consoleBoard = new Joystick(2);
+
     m_setParkLevel = new JoystickButton(m_consoleBoard, PARK_BTN);
     m_setParkLevel.whenPressed(new SetArmLevel(PARK));
+
     m_setBall1Level = new JoystickButton(m_consoleBoard, BALL1_BTN);
     m_setBall1Level.whenPressed(new SetArmLevel(BALL1));
+
     m_setBall2Level = new JoystickButton(m_consoleBoard, BALL2_BTN);
     m_setBall2Level.whenPressed(new SetArmLevel(BALL2));
+
     m_setBall3Level = new JoystickButton(m_consoleBoard, BALL3_BTN);
     m_setBall3Level.whenPressed(new SetArmLevel(BALL3));
+
     m_setPort1Level = new JoystickButton(m_consoleBoard, PORT1_BTN);
     m_setPort1Level.whenPressed(new SetArmLevel(PORT1));
+
     m_setPort2Level = new JoystickButton(m_consoleBoard, PORT2_BTN);
     m_setPort2Level.whenPressed(new SetArmLevel(PORT2));
+    
     m_setPort3Level = new JoystickButton(m_consoleBoard, PORT3_BTN);
     m_setPort3Level.whenPressed(new SetArmLevel(PORT3));
 

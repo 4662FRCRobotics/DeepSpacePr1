@@ -23,12 +23,12 @@ public class Manipulator extends Subsystem {
 
   private boolean m_bIsGripOpen = true;
 
-  private final int BALL_THROWER_FORWARD = 2;
-  private final int BALL_THROWER_BACKWARD = 3;
+  private final int BALL_THROWER_FORWARD = 0;
+  private final int BALL_THROWER_BACKWARD = 1;
 
   private final int MODULE_NUMBER = 1;
-  private final int GRIP_OPEN = 4;
-  private final int GRIP_CLOSE = 5;
+  private final int GRIP_OPEN = 2;
+  private final int GRIP_CLOSE = 3;
 
   public Manipulator(){
     m_grip = new DoubleSolenoid(MODULE_NUMBER, GRIP_OPEN, GRIP_CLOSE);

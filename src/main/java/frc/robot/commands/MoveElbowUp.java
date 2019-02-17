@@ -20,7 +20,7 @@ public class MoveElbowUp extends Command {
   @Override
   protected void initialize() {
     Robot.m_elbowJoint.setBrakeForward();
-    // Robot.m_elbowJoint.moveJointMotor(ELBOW_SPEED);
+    Robot.m_elbowJoint.moveJointMotor(ELBOW_SPEED);
   }
 
   // Called repeatedly when this Command is scheduled to run
