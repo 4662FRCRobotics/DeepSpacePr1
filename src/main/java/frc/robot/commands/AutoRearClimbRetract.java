@@ -7,14 +7,19 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.buttons.Trigger;
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.TimedCommand;
 import frc.robot.Robot;
 
-public class MoveWristUp extends Command {
-  private final double WRIST_SPEED = 0.7;
-  public MoveWristUp() {
-    requires(Robot.m_wristJoint);
+/**
+ * Add your docs here.
+ */
+public class AutoRearClimbRetract extends TimedCommand {
+  /**
+   * Add your docs here.
+   */
+  public AutoRearClimbRetract(double timeout) {
+    super(timeout);
+    requires(Robot.m_rearClimb);
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
@@ -22,7 +27,7 @@ public class MoveWristUp extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.m_wristJoint.moveJointMotor(WRIST_SPEED);
+    Robot.m_rearClimb.retractClimb();
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -30,18 +35,10 @@ public class MoveWristUp extends Command {
   protected void execute() {
   }
 
-  // Make this return true when this Command no longer needs to run execute()
-  @Override
-  protected boolean isFinished() {
-    return false;
-  }
-
-  // Called once after isFinished returns true
+  // Called once after timeout
   @Override
   protected void end() {
-    Robot.m_wristJoint.moveJointMotor(0.0);
-    
-   //Robot.m_oi.setHoldWristOn();
+    Robot.m_rearClimb.stopClimb();
   }
 
   // Called when another command which requires one or more of the same

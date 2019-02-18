@@ -23,6 +23,7 @@ public class SetArmLevel extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    Robot.m_elbowJoint.setBrakeForward();
     Robot.m_wristJoint.setArmLevel(m_StrArmLevel);
     Robot.m_elbowJoint.setArmLevel(m_StrArmLevel);
   }
@@ -35,17 +36,20 @@ public class SetArmLevel extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return true;
+    return Robot.m_elbowJoint.isArmJointOnTarget();
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.m_elbowJoint.disableArmJointPID();
+    Robot.m_oi.setBrakeOn();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    end();
   }
 }

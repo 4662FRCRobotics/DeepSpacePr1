@@ -32,6 +32,7 @@ public class Robot extends TimedRobot {
   public static ARMJoint m_elbowJoint;
   public static ARMJoint m_wristJoint;
   public static Manipulator m_manipulator;
+  public static RearClimb m_rearClimb;
   public static OI m_oi;
   //Command m_autonomousCommand;
   //SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -48,6 +49,7 @@ public class Robot extends TimedRobot {
     m_elbowJoint = new ARMJoint("elbow", true);
     m_wristJoint = new ARMJoint("wrist", false);
     m_manipulator = new Manipulator();
+    m_rearClimb = new RearClimb();
     m_oi = new OI();
 
     /** m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
