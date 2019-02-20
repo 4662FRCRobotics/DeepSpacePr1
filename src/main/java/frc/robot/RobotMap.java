@@ -147,12 +147,18 @@ public class RobotMap {
 	}
 	public double getPIDToleranceVal(String nodeValue, double tVal){
 		return 	getDoubleValue("pid", "pidcontroller", nodeValue, "tolerance", tVal);
-		
 	}
 	
 	public double getPIDFfVal(String nodeValue, double tVal){
 		return 	getDoubleValue("pid", "pidcontroller", nodeValue, "feedforward", tVal);
-	
+	}
+
+	public double getMinPIDInput(String nodeValue, double tVal){
+		return getDoubleValue("pid", "pidcontroller", nodeValue, "minPIDInput", tVal);
+	}
+
+	public double getMaxPIDInput(String nodeValue, double tVal){
+		return getDoubleValue("pid", "pidcontroller", nodeValue, "maxPIDInput", tVal);
 	}
 
 	public double getDeviceDoubleVal(String nodeValue, String tagname, double dDefaultVal){
