@@ -66,6 +66,7 @@ public class ARMJoint extends Subsystem {
   private PIDController m_ArmJointPIDCntl;
 
   private double m_dTarget;
+  private double m_dSpeed;
 
   private DoubleSolenoid m_jointBrake;
   
@@ -111,7 +112,7 @@ public class ARMJoint extends Subsystem {
     m_jointMotor1.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
     m_jointMotor1.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
     m_jointMotor1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-    m_jointMotor1.setSensorPhase(true);
+    m_jointMotor1.setSensorPhase(false);
     m_jointMotor1.configClearPositionOnLimitR(true, 0);
     m_jointMotor1.configOpenloopRamp(kRAMP_RATE);
     //m_jointMotor1.configClosedloopRamp(kRAMP_RATE);
@@ -126,6 +127,9 @@ public class ARMJoint extends Subsystem {
      * private PIDController m_ArmJointPIDCntl;
      */
 
+    m_dSpeed = 0;
+    m_dTarget = 0;
+    
     m_dArmJointPIDP = Robot.m_robotMap.getPIDPVal(motorString, 0.2);
     m_dArmJointPIDI = Robot.m_robotMap.getPIDIVal(motorString, 0.0);
     m_dArmJointPIDD = Robot.m_robotMap.getPIDDVal(motorString, 0.0);
@@ -135,6 +139,9 @@ public class ARMJoint extends Subsystem {
 
     m_ArmJointPIDCntl = new PIDController(m_dArmJointPIDP, m_dArmJointPIDI, m_dArmJointPIDD, m_dArmJointFeedForward, new getArmJointEncoder(), new putArmJointSpeed());
     m_ArmJointPIDCntl.setContinuous(false);
+    m_ArmJointPIDCntl.setInputRange(Robot.m_robotMap.getMinPIDInput(motorString, -7000), Robot.m_robotMap.getMaxPIDInput(motorString, 10));
+    m_ArmJointPIDCntl.setOutputRange(-Math.abs(m_dArmJointPIDSpeed), Math.abs(m_dArmJointPIDSpeed));
+    m_ArmJointPIDCntl.setAbsoluteTolerance(m_dArmJointPIDTolerance);
 
     switch (motorCount){
       case 1:
@@ -165,12 +172,13 @@ public class ARMJoint extends Subsystem {
 
   public void moveJointMotor(double speed) {
    m_jointMotorGroup.set(speed);
-   displayJointMotor();
+   m_dSpeed = speed;
   }
 
   public void displayJointMotor(){
     SmartDashboard.putNumber(m_strMotorString + "Encoder", m_jointMotor1.getSelectedSensorPosition(0) );
     SmartDashboard.putNumber(m_strMotorString + "Target", m_dTarget);
+    SmartDashboard.putNumber(m_strMotorString + "Speed", m_dSpeed);
   }
 
   public void setBrakeForward(){
@@ -225,10 +233,8 @@ public class ARMJoint extends Subsystem {
   public void enableArmJointPID(double target){
 
     m_dTarget = target;
-
-    m_ArmJointPIDCntl.setOutputRange(-Math.abs(m_dArmJointPIDSpeed), Math.abs(m_dArmJointPIDSpeed));
     m_ArmJointPIDCntl.setSetpoint(target);
-    m_ArmJointPIDCntl.setAbsoluteTolerance(m_dArmJointPIDTolerance);
+
     if (!m_ArmJointPIDCntl.isEnabled()) {
       m_ArmJointPIDCntl.enable();
     }
@@ -239,7 +245,9 @@ public class ARMJoint extends Subsystem {
   }
 
   public boolean isArmJointOnTarget(){
-    return m_ArmJointPIDCntl.onTarget();
+    return m_ArmJointPIDCntl.onTarget()
+      || (m_dSpeed < 0 && m_jointMotor1.getSensorCollection().isFwdLimitSwitchClosed())
+      || (m_dSpeed > 0 && m_jointMotor1.getSensorCollection().isRevLimitSwitchClosed());
   }
 
   private class getArmJointEncoder implements PIDSource {
