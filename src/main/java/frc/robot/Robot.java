@@ -32,6 +32,7 @@ public class Robot extends TimedRobot {
   public static ARMJoint m_elbowJoint;
   public static ARMJoint m_wristJoint;
   public static Manipulator m_manipulator;
+  public static ManipulatorIntake m_manipulatorIntake;
   public static RearClimb m_rearClimb;
   public static OI m_oi;
   //Command m_autonomousCommand;
@@ -49,6 +50,7 @@ public class Robot extends TimedRobot {
     m_elbowJoint = new ARMJoint("elbow", true);
     m_wristJoint = new ARMJoint("wrist", false);
     m_manipulator = new Manipulator();
+    m_manipulatorIntake = new ManipulatorIntake();
     m_rearClimb = new RearClimb();
     m_oi = new OI();
 
