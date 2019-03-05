@@ -9,7 +9,7 @@ public enum ArmSetPoint {
     PORT2( "port2" ),
     PORT3( "port3" );
 
-    private final String StrArmSetPoint;
+    private String StrArmSetPoint;
 
     ArmSetPoint(String armSetPoint){
         this.StrArmSetPoint = armSetPoint;
