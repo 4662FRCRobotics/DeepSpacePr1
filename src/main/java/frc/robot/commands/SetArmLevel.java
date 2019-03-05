@@ -8,24 +8,25 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.ArmSetPoint;
 import frc.robot.Robot;
 
 public class SetArmLevel extends Command {
 
-  private String m_StrArmLevel;
+  private ArmSetPoint m_ArmLevel;
 
-  public SetArmLevel(String armLevel) {
+  public SetArmLevel(ArmSetPoint armLevel) {
     requires(Robot.m_elbowJoint);
     requires(Robot.m_wristJoint);
-    m_StrArmLevel = armLevel;
+    m_ArmLevel = armLevel;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
     Robot.m_elbowJoint.setBrakeForward();
-    Robot.m_wristJoint.setArmLevel(m_StrArmLevel);
-    Robot.m_elbowJoint.setArmLevel(m_StrArmLevel);
+    Robot.m_wristJoint.setArmLevel(m_ArmLevel);
+    Robot.m_elbowJoint.setArmLevel(m_ArmLevel);
   }
 
   // Called repeatedly when this Command is scheduled to run

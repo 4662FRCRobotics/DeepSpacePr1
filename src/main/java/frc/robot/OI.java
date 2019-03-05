@@ -90,13 +90,6 @@ public class OI {
   private final int PORT1_BTN = 5;
   private final int PORT2_BTN = 6;
   private final int PORT3_BTN = 7;
-  private final String PARK = "park";
-  private final String BALL1 = "ball1";
-  private final String BALL2 = "ball2";
-  private final String BALL3 = "ball3";
-  private final String PORT1 = "port1";
-  private final String PORT2 = "port2";
-  private final String PORT3 = "port3";
 
   private final double GRIP_TIME = 0.2;
 
@@ -138,25 +131,25 @@ public class OI {
     m_consoleBoard = new Joystick(2);
 
     m_setParkLevel = new JoystickButton(m_consoleBoard, PARK_BTN);
-    m_setParkLevel.whenPressed(new SetArmLevel(PARK));
+    m_setParkLevel.whenPressed(new SetArmLevel(ArmSetPoint.PARK));
 
     m_setBall1Level = new JoystickButton(m_consoleBoard, BALL1_BTN);
-    m_setBall1Level.whenPressed(new SetArmLevel(BALL1));
+    m_setBall1Level.whenPressed(new SetArmLevel(ArmSetPoint.BALL1));
 
     m_setBall2Level = new JoystickButton(m_consoleBoard, BALL2_BTN);
-    m_setBall2Level.whenPressed(new SetArmLevel(BALL2));
+    m_setBall2Level.whenPressed(new SetArmLevel(ArmSetPoint.BALL2));
 
     m_setBall3Level = new JoystickButton(m_consoleBoard, BALL3_BTN);
-    m_setBall3Level.whenPressed(new SetArmLevel(BALL3));
+    m_setBall3Level.whenPressed(new SetArmLevel(ArmSetPoint.BALL3));
 
     m_setPort1Level = new JoystickButton(m_consoleBoard, PORT1_BTN);
-    m_setPort1Level.whenPressed(new SetArmLevel(PORT1));
+    m_setPort1Level.whenPressed(new SetArmLevel(ArmSetPoint.PORT1));
 
     m_setPort2Level = new JoystickButton(m_consoleBoard, PORT2_BTN);
-    m_setPort2Level.whenPressed(new SetArmLevel(PORT2));
+    m_setPort2Level.whenPressed(new SetArmLevel(ArmSetPoint.PORT2));
     
     m_setPort3Level = new JoystickButton(m_consoleBoard, PORT3_BTN);
-    m_setPort3Level.whenPressed(new SetArmLevel(PORT3));
+    m_setPort3Level.whenPressed(new SetArmLevel(ArmSetPoint.PORT3));
 
     m_setBrake = new InternalButton();
     m_setBrake.whenPressed(new SetBraken(0.1));

@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.ArmSetPoint;
 import frc.robot.Robot;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
@@ -36,13 +37,6 @@ public class ARMJoint extends Subsystem {
   private final String MOTORNUMBERONE = "1";
   private final String MOTORNUMBERTWO = "2";
 
-  private final String PARK = "park";
-  private final String BALL1 = "ball1";
-  private final String BALL2 = "ball2";
-  private final String BALL3 = "ball3";
-  private final String PORT1 = "port1";
-  private final String PORT2 = "port2";
-  private final String PORT3 = "port3";
   private final int MODULE_NUMBER = 1;
   private final int BRAKE_FORWARD = 5;
   private final int BRAKE_BACKWARD = 4;
@@ -84,13 +78,13 @@ public class ARMJoint extends Subsystem {
 
   public ARMJoint(int motorCount, String motorString, boolean hasBrake){
 
-    m_iParkEV = Robot.m_robotMap.getARMJoint(motorString, PARK);
-    m_iBall1EV = Robot.m_robotMap.getARMJoint(motorString, BALL1 );
-    m_iBall2EV = Robot.m_robotMap.getARMJoint(motorString, BALL2 );
-    m_iBall3EV = Robot.m_robotMap.getARMJoint(motorString, BALL3 );
-    m_iPort1EV = Robot.m_robotMap.getARMJoint(motorString, PORT1 );
-    m_iPort2EV = Robot.m_robotMap.getARMJoint(motorString, PORT2 );
-    m_iPort3EV = Robot.m_robotMap.getARMJoint(motorString, PORT3 );
+    m_iParkEV = Robot.m_robotMap.getARMJoint(motorString, ArmSetPoint.PARK.getStrArmSetPoint() );
+    m_iBall1EV = Robot.m_robotMap.getARMJoint(motorString, ArmSetPoint.BALL1.getStrArmSetPoint() );
+    m_iBall2EV = Robot.m_robotMap.getARMJoint(motorString, ArmSetPoint.BALL2.getStrArmSetPoint() );
+    m_iBall3EV = Robot.m_robotMap.getARMJoint(motorString, ArmSetPoint.BALL3.getStrArmSetPoint() );
+    m_iPort1EV = Robot.m_robotMap.getARMJoint(motorString, ArmSetPoint.PORT1.getStrArmSetPoint() );
+    m_iPort2EV = Robot.m_robotMap.getARMJoint(motorString, ArmSetPoint.PORT2.getStrArmSetPoint() );
+    m_iPort3EV = Robot.m_robotMap.getARMJoint(motorString, ArmSetPoint.PORT3.getStrArmSetPoint() );
    
     System.out.format("PARK = %d",m_iParkEV);
     System.out.format("BALL1 = %d",m_iBall1EV);
@@ -203,7 +197,7 @@ public class ARMJoint extends Subsystem {
     enableArmJointPID(m_jointMotor1.getSelectedSensorPosition(0));
   }
 
-  public void setArmLevel(String levelName){
+  public void setArmLevel(ArmSetPoint levelName){
     switch(levelName) {
       case PARK:
         enableArmJointPID(m_iParkEV);
