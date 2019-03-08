@@ -49,13 +49,17 @@ public class Manipulator extends Subsystem {
   }
 
   public void setGripForward(){
-    m_grip.set(DoubleSolenoid.Value.kForward);
-    m_bIsGripOpen = true;
+    if(!m_bIsGripOpen) {
+      m_grip.set(DoubleSolenoid.Value.kForward);
+      m_bIsGripOpen = true;
+    }
   }
 
   public void setGripBackward(){
-    m_grip.set(DoubleSolenoid.Value.kReverse);
-    m_bIsGripOpen = false;
+    if(m_bIsGripOpen) {
+      m_grip.set(DoubleSolenoid.Value.kReverse);
+      m_bIsGripOpen = false;
+    }  
   }
 
   public void setGripOff(){

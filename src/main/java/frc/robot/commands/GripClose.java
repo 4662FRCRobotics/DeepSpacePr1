@@ -18,24 +18,26 @@ public class GripClose extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    Robot.m_manipulator.setGripBackward();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.m_manipulator.setGripBackward();
+    
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return true;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
     Robot.m_manipulator.setGripOff();
+    Robot.m_oi.clearGripClose();
   }
 
   // Called when another command which requires one or more of the same

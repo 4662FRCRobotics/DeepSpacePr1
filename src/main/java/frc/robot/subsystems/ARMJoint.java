@@ -115,7 +115,7 @@ public class ARMJoint extends Subsystem {
     m_jointMotor1.setSensorPhase(false);
     m_jointMotor1.configClearPositionOnLimitR(true, 0);
     m_jointMotor1.configOpenloopRamp(kRAMP_RATE);
-    //m_jointMotor1.configClosedloopRamp(kRAMP_RATE);
+    m_jointMotor1.configClosedloopRamp(kRAMP_RATE);
 
     /**
      * private double m_dArmJointPIDP;

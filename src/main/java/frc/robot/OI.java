@@ -75,6 +75,7 @@ public class OI {
 
   private InternalButton m_setBrake;
   private InternalButton m_holdWristPosition;
+  private InternalButton m_gripClose;
 
   // operator/game pad button ports
   private final int VISION_LIGHT_BUTTON = 12;
@@ -111,8 +112,8 @@ public class OI {
   public OI() {
     m_driveStick = new Joystick(0);
 
-    m_visionLightButton = new JoystickButton(m_driveStick, VISION_LIGHT_BUTTON);
-    m_visionLightButton.whenPressed(new ToggleVisionLight());
+  // m_visionLightButton = new JoystickButton(m_driveStick, VISION_LIGHT_BUTTON);
+  // m_visionLightButton.whenPressed(new ToggleVisionLight());
 
     m_operatorPad = new Joystick(1);
 
@@ -130,6 +131,7 @@ public class OI {
 
     m_intakeCargo = new JoystickButton(m_operatorPad, INTAKE_CARGO);
     m_intakeCargo.whileHeld(new IntakeCargo());
+
 
     //gears stripped on version 1
     //m_extendRearClimb = new JoystickButton(m_operatorPad, EXTEND_REAR_CLIMB);
@@ -172,6 +174,9 @@ public class OI {
 
     m_holdWristPosition = new InternalButton();
     m_holdWristPosition.whenPressed(new HoldWristPosition());
+
+    m_gripClose = new InternalButton();
+    m_gripClose.whenPressed(new GripClose());
   }
 
   // velocity * 2 / (throttle + 3)
@@ -197,5 +202,13 @@ public class OI {
 
   public void clearWristOn(){
     m_holdWristPosition.setPressed(false);
+  }
+
+  public void setGripClose(){
+    m_gripClose.setPressed(true);
+  }
+
+  public void clearGripClose(){
+    m_gripClose.setPressed(false);
   }
 }

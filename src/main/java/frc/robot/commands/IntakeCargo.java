@@ -13,7 +13,7 @@ import frc.robot.subsystems.ManipulatorIntake;
 
 public class IntakeCargo extends Command {
   
-  private final double INTAKE_MOTOR_SPEED = -0.5;
+  private final double INTAKE_MOTOR_SPEED = -0.3;
   private final double INTAKE_MOTOR_OFF = 0;
 
   public IntakeCargo() {
@@ -26,6 +26,7 @@ public class IntakeCargo extends Command {
   @Override
   protected void initialize() {
     Robot.m_manipulatorIntake.setMotorSpeed(INTAKE_MOTOR_SPEED);
+    Robot.m_oi.setGripClose();
   }
 
   // Called repeatedly when this Command is scheduled to run
