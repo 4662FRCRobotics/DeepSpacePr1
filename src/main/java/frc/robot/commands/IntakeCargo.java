@@ -9,39 +9,41 @@ package frc.robot.commands;
 
 import frc.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.subsystems.ManipulatorIntake;
 
-public class GripClose extends Command {
+public class IntakeCargo extends Command {
+  
+  private final double INTAKE_MOTOR_SPEED = -0.4;
+  private final double INTAKE_MOTOR_OFF = 0;
 
-private final double TIME_OUT_VAL = 0.2;
-
-  public GripClose() {
-    requires(Robot.m_manipulator);
+  public IntakeCargo() {
+    // Use requires() here to declare subsystem dependencies
+    // eg. requires(chassis);
+    requires(Robot.m_manipulatorIntake);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.m_manipulator.setGripBackward();
-    setTimeout(TIME_OUT_VAL);
+    Robot.m_manipulatorIntake.setMotorSpeed(INTAKE_MOTOR_SPEED);
+    Robot.m_oi.setGripClose();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return isTimedOut();
+    return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.m_manipulator.setGripOff();
-    Robot.m_oi.clearGripClose();
+    Robot.m_manipulatorIntake.setMotorSpeed(INTAKE_MOTOR_OFF);
   }
 
   // Called when another command which requires one or more of the same

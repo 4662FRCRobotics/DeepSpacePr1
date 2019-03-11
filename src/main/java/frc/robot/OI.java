@@ -51,6 +51,7 @@ public class OI {
  
 
   private Joystick m_operatorPad;
+
   private JoystickButton m_moveElbowUpButton;
   private JoystickButton m_moveElbowDownButton;
   private JoystickButton m_moveWristUpButton;
@@ -59,6 +60,7 @@ public class OI {
   private JoystickButton m_retractRearClimb;
   private JoystickButton m_toggleGripButton;
   private JoystickButton m_pushBall;
+  private JoystickButton m_intakeCargo;
 
 
   private Joystick m_consoleBoard;
@@ -73,7 +75,9 @@ public class OI {
 
   private InternalButton m_setBrake;
   private InternalButton m_holdWristPosition;
+  private InternalButton m_gripClose;
 
+  // operator/game pad button ports
   private final int VISION_LIGHT_BUTTON = 12;
   private final int UP_ELBOW = 8; 
   private final int DOWN_ELBOW = 7;   
@@ -83,6 +87,9 @@ public class OI {
   private final int RETRACT_REAR_CLIMB = 10;
   private final int TOGGLE_GRIP = 1;
   private final int PUSH_BALL = 4;
+  private final int INTAKE_CARGO = 2;
+
+  // console board button ports
   private final int PARK_BTN = 1;
   private final int BALL1_BTN = 2;
   private final int BALL2_BTN = 3;
@@ -98,8 +105,8 @@ public class OI {
   public OI() {
     m_driveStick = new Joystick(0);
 
-    m_visionLightButton = new JoystickButton(m_driveStick, VISION_LIGHT_BUTTON);
-    m_visionLightButton.whenPressed(new ToggleVisionLight());
+  // m_visionLightButton = new JoystickButton(m_driveStick, VISION_LIGHT_BUTTON);
+  // m_visionLightButton.whenPressed(new ToggleVisionLight());
 
     m_operatorPad = new Joystick(1);
 
@@ -114,6 +121,10 @@ public class OI {
 
     m_moveWristDownButton = new JoystickButton(m_operatorPad, DOWN_WRIST);
     m_moveWristDownButton.whileHeld(new MoveWristDown());
+
+    m_intakeCargo = new JoystickButton(m_operatorPad, INTAKE_CARGO);
+    m_intakeCargo.whileHeld(new IntakeCargo());
+
 
     //gears stripped on version 1
     //m_extendRearClimb = new JoystickButton(m_operatorPad, EXTEND_REAR_CLIMB);
@@ -156,6 +167,9 @@ public class OI {
 
     m_holdWristPosition = new InternalButton();
     m_holdWristPosition.whenPressed(new HoldWristPosition());
+
+    m_gripClose = new InternalButton();
+    m_gripClose.whenPressed(new GripClose());
   }
 
   // velocity * 2 / (throttle + 3)
@@ -181,5 +195,13 @@ public class OI {
 
   public void clearWristOn(){
     m_holdWristPosition.setPressed(false);
+  }
+
+  public void setGripClose(){
+    m_gripClose.setPressed(true);
+  }
+
+  public void clearGripClose(){
+    m_gripClose.setPressed(false);
   }
 }

@@ -43,7 +43,7 @@ public class Drive extends Subsystem {
   private CANEncoder m_leftEncoder1;
   private CANEncoder m_rightEncoder1;
 
-  private final double kRAMP_RATE = 1.0;
+  private final double kRAMP_RATE = 2.0;
   private final double kENCODER_PULSES_PER_REV = 1;
   private final double kGEARBOX_REDUCTION = (50/12) * (60/14);
   private final double kTIRE_SIZE = 7.9; 
@@ -64,6 +64,11 @@ public class Drive extends Subsystem {
     m_leftController2.setOpenLoopRampRate(kRAMP_RATE);
     m_rightController1.setOpenLoopRampRate(kRAMP_RATE);
     m_rightController2.setOpenLoopRampRate(kRAMP_RATE);
+
+    m_leftController1.setSmartCurrentLimit(40);
+    m_leftController2.setSmartCurrentLimit(40);
+    m_rightController1.setSmartCurrentLimit(40);
+    m_rightController2.setSmartCurrentLimit(40);
 
     m_leftControlGroup = new SpeedControllerGroup(m_leftController1, m_leftController2);
     m_rightControlGroup = new SpeedControllerGroup(m_rightController1, m_rightController2);
