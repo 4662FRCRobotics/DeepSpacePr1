@@ -65,6 +65,11 @@ public class Drive extends Subsystem {
     m_rightController1.setOpenLoopRampRate(kRAMP_RATE);
     m_rightController2.setOpenLoopRampRate(kRAMP_RATE);
 
+    m_leftController1.setSmartCurrentLimit(40);
+    m_leftController2.setSmartCurrentLimit(40);
+    m_rightController1.setSmartCurrentLimit(40);
+    m_rightController2.setSmartCurrentLimit(40);
+
     m_leftControlGroup = new SpeedControllerGroup(m_leftController1, m_leftController2);
     m_rightControlGroup = new SpeedControllerGroup(m_rightController1, m_rightController2);
 

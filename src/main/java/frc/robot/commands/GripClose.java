@@ -11,6 +11,9 @@ import frc.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class GripClose extends Command {
+
+private final double TIME_OUT_VAL = 0.2;
+
   public GripClose() {
     requires(Robot.m_manipulator);
   }
@@ -19,6 +22,7 @@ public class GripClose extends Command {
   @Override
   protected void initialize() {
     Robot.m_manipulator.setGripBackward();
+    setTimeout(TIME_OUT_VAL);
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -30,7 +34,7 @@ public class GripClose extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return true;
+    return isTimedOut();
   }
 
   // Called once after isFinished returns true

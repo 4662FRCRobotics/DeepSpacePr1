@@ -13,7 +13,7 @@ import frc.robot.subsystems.ManipulatorIntake;
 
 public class IntakeCargo extends Command {
   
-  private final double INTAKE_MOTOR_SPEED = -0.3;
+  private final double INTAKE_MOTOR_SPEED = -0.4;
   private final double INTAKE_MOTOR_OFF = 0;
 
   public IntakeCargo() {
