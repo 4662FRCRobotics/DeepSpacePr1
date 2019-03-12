@@ -72,6 +72,8 @@ public class OI {
   private JoystickButton m_setPort1Level;
   private JoystickButton m_setPort2Level;
   private JoystickButton m_setPort3Level;
+  private JoystickButton m_setBallCSLevel;
+  private JoystickButton m_setPortCSLevel;
 
   private InternalButton m_setBrake;
   private InternalButton m_holdWristPosition;
@@ -97,17 +99,21 @@ public class OI {
   private final int PORT1_BTN = 5;
   private final int PORT2_BTN = 6;
   private final int PORT3_BTN = 7;
+  private final int BALLCS_BTN =8;
+  private final int PORTCS_BTN = 9;
 
   private final double GRIP_TIME = 0.2;
 
   // I just lost the game
 
   public OI() {
+     //Joystick
     m_driveStick = new Joystick(0);
 
   // m_visionLightButton = new JoystickButton(m_driveStick, VISION_LIGHT_BUTTON);
   // m_visionLightButton.whenPressed(new ToggleVisionLight());
 
+     //Game Pad
     m_operatorPad = new Joystick(1);
 
     m_moveElbowUpButton = new JoystickButton(m_operatorPad, UP_ELBOW);
@@ -138,7 +144,8 @@ public class OI {
 
     m_pushBall = new JoystickButton(m_operatorPad, PUSH_BALL);
     m_pushBall.whenPressed(new LaunchBall());
-
+    
+    //Arduino
     m_consoleBoard = new Joystick(2);
 
     m_setParkLevel = new JoystickButton(m_consoleBoard, PARK_BTN);
@@ -162,6 +169,13 @@ public class OI {
     m_setPort3Level = new JoystickButton(m_consoleBoard, PORT3_BTN);
     m_setPort3Level.whenPressed(new SetArmLevel(ArmSetPoint.PORT3));
 
+    m_setBallCSLevel = new JoystickButton(m_consoleBoard, BALLCS_BTN);
+    m_setBallCSLevel.whenPressed(new SetArmLevel(ArmSetPoint.BALLCS));
+
+    m_setPortCSLevel = new JoystickButton(m_consoleBoard, PORTCS_BTN);
+    m_setPortCSLevel.whenPressed(new SetArmLevel(ArmSetPoint.PORTCS));
+
+    //Internal Buttons
     m_setBrake = new InternalButton();
     m_setBrake.whenPressed(new SetBraken(0.1));
 
