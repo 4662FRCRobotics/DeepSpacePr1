@@ -48,6 +48,8 @@ public class ARMJoint extends Subsystem {
   private int m_iPort1EV;
   private int m_iPort2EV;
   private int m_iPort3EV;
+  private int m_iBallCSEV;
+  private int m_iPortCSEV;
 
   private WPI_TalonSRX m_jointMotor1;
   private WPI_TalonSRX m_jointMotor2;
@@ -85,6 +87,8 @@ public class ARMJoint extends Subsystem {
     m_iPort1EV = Robot.m_robotMap.getARMJoint(motorString, ArmSetPoint.PORT1.getStrArmSetPoint() );
     m_iPort2EV = Robot.m_robotMap.getARMJoint(motorString, ArmSetPoint.PORT2.getStrArmSetPoint() );
     m_iPort3EV = Robot.m_robotMap.getARMJoint(motorString, ArmSetPoint.PORT3.getStrArmSetPoint() );
+    m_iBallCSEV = Robot.m_robotMap.getARMJoint(motorString, ArmSetPoint.BALLCS.getStrArmSetPoint() );
+    m_iPortCSEV = Robot.m_robotMap.getARMJoint(motorString, ArmSetPoint.PORTCS.getStrArmSetPoint() );
    
     System.out.format("PARK = %d",m_iParkEV);
     System.out.format("BALL1 = %d",m_iBall1EV);
@@ -93,6 +97,8 @@ public class ARMJoint extends Subsystem {
     System.out.format("PORT1 = %d",m_iPort1EV);
     System.out.format("PORT2 = %d",m_iPort2EV);
     System.out.format("PORT3 = %d",m_iPort3EV);
+    System.out.format("BALLCS = %d",m_iBallCSEV);
+    System.out.format("PORTCS = %d",m_iPortCSEV);
 
     if (motorCount > 2){
       motorCount = 2;
@@ -220,6 +226,11 @@ public class ARMJoint extends Subsystem {
       case PORT3:
         enableArmJointPID(m_iPort3EV);
         break;
+      case BALLCS:
+        enableArmJointPID(m_iBallCSEV);
+        break;
+      case PORTCS:
+        enableArmJointPID(m_iPortCSEV);  
       default:
     }
   }

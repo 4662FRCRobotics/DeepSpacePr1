@@ -7,7 +7,9 @@ public enum ArmSetPoint {
     BALL3( "ball3" ),
     PORT1( "port1" ),
     PORT2( "port2" ),
-    PORT3( "port3" );
+    PORT3( "port3" ),
+    BALLCS( "ballcs"),
+    PORTCS( "portcs");
 
     private String StrArmSetPoint;
 
