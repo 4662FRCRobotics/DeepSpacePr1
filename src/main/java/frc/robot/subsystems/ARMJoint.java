@@ -41,6 +41,8 @@ public class ARMJoint extends Subsystem {
   private final int BRAKE_FORWARD = 5;
   private final int BRAKE_BACKWARD = 4;
 
+  private final double JOINT_ANGLE_OFFSET = 85;
+
   private int m_iParkEV;
   private int m_iBall1EV;
   private int m_iBall2EV;
@@ -50,6 +52,10 @@ public class ARMJoint extends Subsystem {
   private int m_iPort3EV;
   private int m_iBallCSEV;
   private int m_iPortCSEV;
+
+  private double m_dEncoderPerDegree;
+  private double m_dHomeDegree;
+  private double m_dCntlBreak;
 
   private WPI_TalonSRX m_jointMotor1;
   private WPI_TalonSRX m_jointMotor2;
@@ -80,6 +86,9 @@ public class ARMJoint extends Subsystem {
 
   public ARMJoint(int motorCount, String motorString, boolean hasBrake){
 
+    m_dEncoderPerDegree = Robot.m_robotMap.getDeviceDoubleVal(motorString, "encoderperdegree", 50);
+    m_dHomeDegree = Robot.m_robotMap.getDeviceDoubleVal(motorString, "homedegree", 30);
+    m_dCntlBreak = Robot.m_robotMap.getDeviceDoubleVal(motorString, "cntlbreak", 50);
     m_iParkEV = Robot.m_robotMap.getARMJoint(motorString, ArmSetPoint.PARK.getStrArmSetPoint() );
     m_iBall1EV = Robot.m_robotMap.getARMJoint(motorString, ArmSetPoint.BALL1.getStrArmSetPoint() );
     m_iBall2EV = Robot.m_robotMap.getARMJoint(motorString, ArmSetPoint.BALL2.getStrArmSetPoint() );
@@ -176,7 +185,8 @@ public class ARMJoint extends Subsystem {
   }
 
   public void displayJointMotor(){
-    SmartDashboard.putNumber(m_strMotorString + "Encoder", m_jointMotor1.getSelectedSensorPosition(0) );
+    SmartDashboard.putNumber(m_strMotorString + "Encoder", m_jointMotor1.getSelectedSensorPosition(0) )
+    SmartDashboard.putNumber(m_strMotorString + "Angle", getAngle());
     SmartDashboard.putNumber(m_strMotorString + "Target", m_dTarget);
     SmartDashboard.putNumber(m_strMotorString + "Speed", m_dSpeed);
   }
@@ -235,6 +245,10 @@ public class ARMJoint extends Subsystem {
     }
   }
 
+  public void syncJoint(double joinedAngle) {
+    enableArmJointPID((joinedAngle + JOINT_ANGLE_OFFSET) * m_dEncoderPerDegree);
+  }
+
   public void enableArmJointPID(double target){
 
     m_dTarget = target;
@@ -253,6 +267,19 @@ public class ARMJoint extends Subsystem {
     return m_ArmJointPIDCntl.onTarget()
       || (m_dSpeed < 0 && m_jointMotor1.getSensorCollection().isFwdLimitSwitchClosed())
       || (m_dSpeed > 0 && m_jointMotor1.getSensorCollection().isRevLimitSwitchClosed());
+  }
+
+  public double getAngle() {
+    return (m_jointMotor1.getSelectedSensorPosition(0) * m_dEncoderPerDegree) + m_dHomeDegree;
+  }
+
+  public boolean isControlAuto() {
+    boolean isControlAuto = false;
+    if ((getAngle() > m_dCntlBreak - 2 && m_dSpeed < 0)
+      || (getAngle() < m_dCntlBreak + 2 && m_dSpeed > 0)) {
+      isControlAuto = true;
+    }
+    return isControlAuto;
   }
 
   private class getArmJointEncoder implements PIDSource {

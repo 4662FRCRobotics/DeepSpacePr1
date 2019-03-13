@@ -9,7 +9,6 @@ package frc.robot.commands;
 
 import frc.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.ManipulatorIntake;
 
 public class IntakeCargo extends Command {
   

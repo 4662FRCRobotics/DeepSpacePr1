@@ -118,9 +118,11 @@ public class OI {
 
     m_moveElbowUpButton = new JoystickButton(m_operatorPad, UP_ELBOW);
     m_moveElbowUpButton.whileHeld(new MoveElbowUp());
+    //m_moveElbowUpButton.whileHeld(new MoveElbowSync(true));
 
     m_moveElbowDownButton = new JoystickButton(m_operatorPad, DOWN_ELBOW);
     m_moveElbowDownButton.whileHeld(new MoveElbowDown());
+    //m_moveElbowDownButton.whileHeld(new MoveElbowSync(false));
 
     m_moveWristUpButton = new JoystickButton(m_operatorPad, UP_WRIST);
     m_moveWristUpButton.whileHeld(new MoveWristUp());

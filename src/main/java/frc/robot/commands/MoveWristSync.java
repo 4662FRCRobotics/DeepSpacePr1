@@ -10,44 +10,38 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class MoveWristDown extends Command {
-  private final double WRIST_SPEED = -0.6;
-  public MoveWristDown() {
+public class MoveWristSync extends Command {
+
+  public MoveWristSync() {
     requires(Robot.m_wristJoint);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.m_wristJoint.disableArmJointPID();
+    double elbowAngle = Robot.m_elbowJoint.getAngle();
+    //Robot.m_wristJoint.syncJoint(elbowAngle);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    //if (!Robot.m_elbowJoint.isControlAuto()) {
-      Robot.m_wristJoint.moveJointMotor(WRIST_SPEED);
-    //}
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
     return false;
-    //return Robot.m_elbowJoint.isControlAuto();
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.m_wristJoint.moveJointMotor(0.0);
-    //Robot.m_oi.setHoldWristOn();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    end();
   }
 }
