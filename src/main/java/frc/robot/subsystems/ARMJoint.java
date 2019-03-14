@@ -56,6 +56,8 @@ public class ARMJoint extends Subsystem {
   private double m_dEncoderPerDegree;
   private double m_dHomeDegree;
   private double m_dCntlBreak;
+  private double m_dFwdLimit;
+  private double m_dRevLimit;
 
   private WPI_TalonSRX m_jointMotor1;
   private WPI_TalonSRX m_jointMotor2;
@@ -89,6 +91,8 @@ public class ARMJoint extends Subsystem {
     m_dEncoderPerDegree = Robot.m_robotMap.getDeviceDoubleVal(motorString, "encoderperdegree", 50);
     m_dHomeDegree = Robot.m_robotMap.getDeviceDoubleVal(motorString, "homedegree", 30);
     m_dCntlBreak = Robot.m_robotMap.getDeviceDoubleVal(motorString, "cntlbreak", 50);
+    m_dFwdLimit = Robot.m_robotMap.getDeviceDoubleVal(motorString, "fwdlimit", 360);
+    m_dRevLimit = Robot.m_robotMap.getDeviceDoubleVal(motorString, "revlimit", 0);
     m_iParkEV = Robot.m_robotMap.getARMJoint(motorString, ArmSetPoint.PARK.getStrArmSetPoint() );
     m_iBall1EV = Robot.m_robotMap.getARMJoint(motorString, ArmSetPoint.BALL1.getStrArmSetPoint() );
     m_iBall2EV = Robot.m_robotMap.getARMJoint(motorString, ArmSetPoint.BALL2.getStrArmSetPoint() );
@@ -273,6 +277,22 @@ public class ARMJoint extends Subsystem {
     return (m_jointMotor1.getSelectedSensorPosition(0) * m_dEncoderPerDegree) + m_dHomeDegree;
   }
 
+  public boolean isFwdLimit(double joinedAngle) {
+    boolean isFwdLimit = false;
+    if (getAngle() + joinedAngle - JOINT_ANGLE_OFFSET > m_dFwdLimit) {
+      isFwdLimit = true;
+    }
+    return isFwdLimit;
+  }
+
+  public boolean isRevLimit(double joinedAngle) {
+    boolean isRevLimit = false;
+    if (getAngle() - joinedAngle - JOINT_ANGLE_OFFSET < m_dRevLimit) {
+      isRevLimit = true;
+    }
+    return isRevLimit;
+  }
+  
   public boolean isControlAuto() {
     boolean isControlAuto = false;
     if ((getAngle() > m_dCntlBreak - 2 && m_dSpeed < 0)
