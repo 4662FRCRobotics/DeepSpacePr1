@@ -185,7 +185,7 @@ public class ARMJoint extends Subsystem {
   }
 
   public void displayJointMotor(){
-    SmartDashboard.putNumber(m_strMotorString + "Encoder", m_jointMotor1.getSelectedSensorPosition(0) )
+    SmartDashboard.putNumber(m_strMotorString + "Encoder", m_jointMotor1.getSelectedSensorPosition(0));
     SmartDashboard.putNumber(m_strMotorString + "Angle", getAngle());
     SmartDashboard.putNumber(m_strMotorString + "Target", m_dTarget);
     SmartDashboard.putNumber(m_strMotorString + "Speed", m_dSpeed);
