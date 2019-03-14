@@ -78,6 +78,8 @@ public class OI {
   private InternalButton m_setBrake;
   private InternalButton m_holdWristPosition;
   private InternalButton m_gripClose;
+  private InternalButton m_moveWristSync;
+  private InternalButton m_stopWristSync;
 
   // operator/game pad button ports
   private final int VISION_LIGHT_BUTTON = 12;
@@ -117,12 +119,12 @@ public class OI {
     m_operatorPad = new Joystick(1);
 
     m_moveElbowUpButton = new JoystickButton(m_operatorPad, UP_ELBOW);
-    m_moveElbowUpButton.whileHeld(new MoveElbowUp());
-    //m_moveElbowUpButton.whileHeld(new MoveElbowSync(true));
+    //m_moveElbowUpButton.whileHeld(new MoveElbowUp());
+    m_moveElbowUpButton.whileHeld(new MoveElbowSync(true));
 
     m_moveElbowDownButton = new JoystickButton(m_operatorPad, DOWN_ELBOW);
-    m_moveElbowDownButton.whileHeld(new MoveElbowDown());
-    //m_moveElbowDownButton.whileHeld(new MoveElbowSync(false));
+    //m_moveElbowDownButton.whileHeld(new MoveElbowDown());
+    m_moveElbowDownButton.whileHeld(new MoveElbowSync(false));
 
     m_moveWristUpButton = new JoystickButton(m_operatorPad, UP_WRIST);
     m_moveWristUpButton.whileHeld(new MoveWristUp());
@@ -186,6 +188,12 @@ public class OI {
 
     m_gripClose = new InternalButton();
     m_gripClose.whenPressed(new GripClose());
+
+    m_moveWristSync = new InternalButton();
+    m_moveWristSync.whenPressed(new MoveWristSync());
+
+    m_stopWristSync = new InternalButton();
+    m_stopWristSync.whenPressed(new StopWristSync());
   }
 
   // velocity * 2 / (throttle + 3)
@@ -219,5 +227,21 @@ public class OI {
 
   public void clearGripClose(){
     m_gripClose.setPressed(false);
+  }
+
+  public void setWristSync(){
+    m_moveWristSync.setPressed(true);
+  }
+
+  public void clearWristSync(){
+    m_moveWristSync.setPressed(false);
+  }
+
+    public void setStopWristSync(){
+    m_stopWristSync.setPressed(true);
+  }
+
+  public void clearStopWristSync(){
+    m_stopWristSync.setPressed(false);
   }
 }

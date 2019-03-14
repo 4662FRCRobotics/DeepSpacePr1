@@ -48,6 +48,7 @@ public class MoveElbowSync extends Command {
   @Override
   protected void end() {
     Robot.m_elbowJoint.moveJointMotor(0.0);
+    Robot.m_oi.setStopWristSync();
   }
 
   // Called when another command which requires one or more of the same

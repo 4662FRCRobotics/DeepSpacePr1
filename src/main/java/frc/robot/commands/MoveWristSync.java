@@ -21,6 +21,7 @@ public class MoveWristSync extends Command {
   protected void initialize() {
     double elbowAngle = Robot.m_elbowJoint.getAngle();
     //Robot.m_wristJoint.syncJoint(elbowAngle);
+    Robot.m_oi.clearWristSync();
   }
 
   // Called repeatedly when this Command is scheduled to run
