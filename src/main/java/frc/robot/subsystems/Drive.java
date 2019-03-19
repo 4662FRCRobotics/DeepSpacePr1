@@ -43,7 +43,7 @@ public class Drive extends Subsystem {
   private CANEncoder m_leftEncoder1;
   private CANEncoder m_rightEncoder1;
 
-  private final double kRAMP_RATE = 2.0;
+  private final double kRAMP_RATE = 1.0;
   private final double kENCODER_PULSES_PER_REV = 1;
   private final double kGEARBOX_REDUCTION = (50/12) * (60/14);
   private final double kTIRE_SIZE = 7.9; 

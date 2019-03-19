@@ -133,11 +133,11 @@ public class OI {
 
 
     //gears stripped on version 1
-    //m_extendRearClimb = new JoystickButton(m_operatorPad, EXTEND_REAR_CLIMB);
-    //m_extendRearClimb.whileHeld(new AutoRearClimbExtend(0.1));
+    m_extendRearClimb = new JoystickButton(m_operatorPad, EXTEND_REAR_CLIMB);
+    m_extendRearClimb.whileHeld(new AutoRearClimbExtend(0.1));
     //Don't be a Bully!
-    //m_retractRearClimb = new JoystickButton(m_operatorPad, RETRACT_REAR_CLIMB);
-    //m_retractRearClimb.whenPressed(new AutoRearClimbRetract(0.1));
+    m_retractRearClimb = new JoystickButton(m_operatorPad, RETRACT_REAR_CLIMB);
+    m_retractRearClimb.whileHeld(new AutoRearClimbRetract(0.1));
 
     m_toggleGripButton = new JoystickButton(m_operatorPad, TOGGLE_GRIP);
     m_toggleGripButton.whenPressed(new ToggleGrip(GRIP_TIME));
