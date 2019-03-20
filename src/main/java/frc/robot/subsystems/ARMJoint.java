@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.ArmSetPoint;
 import frc.robot.Robot;
+import frc.robot.commands.MoveWristJoystick;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
@@ -111,7 +112,17 @@ public class ARMJoint extends Subsystem {
     m_jointMotor1.setNeutralMode(NeutralMode.Brake);
     m_jointMotor1.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
     m_jointMotor1.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
-    m_jointMotor1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+    switch (motorString){
+      case "wrist":
+        m_jointMotor1.configSelectedFeedbackSensor(FeedbackDevice.Analog);
+        break;
+      
+      case "elbow":
+        m_jointMotor1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+        break;
+      
+      default:
+    }
     m_jointMotor1.setSensorPhase(false);
     m_jointMotor1.configClearPositionOnLimitR(true, 0);
     m_jointMotor1.configOpenloopRamp(kRAMP_RATE);
@@ -153,6 +164,8 @@ public class ARMJoint extends Subsystem {
         m_jointMotorGroup = new SpeedControllerGroup(m_jointMotor1, m_jointMotor2);
         
         break;
+      
+      default:
     }
 
     m_jointMotorGroup.setInverted(true);
@@ -168,6 +181,11 @@ public class ARMJoint extends Subsystem {
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
+    switch(m_strMotorString){
+      case "wrist":
+        setDefaultCommand(new MoveWristJoystick());
+        break;
+    }
   }
 
   public void moveJointMotor(double speed) {
