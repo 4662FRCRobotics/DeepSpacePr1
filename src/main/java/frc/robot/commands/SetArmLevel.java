@@ -17,7 +17,7 @@ public class SetArmLevel extends Command {
 
   public SetArmLevel(ArmSetPoint armLevel) {
     requires(Robot.m_elbowJoint);
-    requires(Robot.m_wristJoint);
+   // requires(Robot.m_wristJoint);
     m_ArmLevel = armLevel;
   }
 

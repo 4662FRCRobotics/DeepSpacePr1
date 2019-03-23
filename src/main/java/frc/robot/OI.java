@@ -197,7 +197,7 @@ public class OI {
   }
 
   public double getWristJoystickY(){
-    return m_operatorPad.getY();
+    return -m_operatorPad.getY();
   }
 
   public void setBrakeOn(){

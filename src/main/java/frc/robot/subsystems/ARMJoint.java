@@ -115,16 +115,22 @@ public class ARMJoint extends Subsystem {
     switch (motorString){
       case "wrist":
         m_jointMotor1.configSelectedFeedbackSensor(FeedbackDevice.Analog);
+        m_jointMotor1.setSensorPhase(false);
+        m_jointMotor1.configForwardSoftLimitThreshold(25);
+        m_jointMotor1.configReverseSoftLimitThreshold(250);
+        m_jointMotor1.configForwardSoftLimitEnable(false);
+        m_jointMotor1.configReverseSoftLimitEnable(false);
         break;
       
       case "elbow":
         m_jointMotor1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+        m_jointMotor1.setSensorPhase(false);
+        m_jointMotor1.configClearPositionOnLimitR(true, 0);
         break;
       
       default:
     }
-    m_jointMotor1.setSensorPhase(false);
-    m_jointMotor1.configClearPositionOnLimitR(true, 0);
+    
     m_jointMotor1.configOpenloopRamp(kRAMP_RATE);
     m_jointMotor1.configClosedloopRamp(kRAMP_RATE);
 
