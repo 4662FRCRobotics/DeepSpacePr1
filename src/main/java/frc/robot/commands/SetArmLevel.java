@@ -25,7 +25,7 @@ public class SetArmLevel extends Command {
   @Override
   protected void initialize() {
     Robot.m_elbowJoint.setBrakeForward();
-    Robot.m_wristJoint.setArmLevel(m_ArmLevel);
+    //Robot.m_wristJoint.setArmLevel(m_ArmLevel);
     Robot.m_elbowJoint.setArmLevel(m_ArmLevel);
   }
 
