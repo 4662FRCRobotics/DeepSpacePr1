@@ -8,43 +8,36 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.ArmSetPoint;
 import frc.robot.Robot;
 
-public class SetArmLevel extends Command {
-
-  private ArmSetPoint m_ArmLevel;
-
-  public SetArmLevel(ArmSetPoint armLevel) {
-    requires(Robot.m_elbowJoint);
-   // requires(Robot.m_wristJoint);
-    m_ArmLevel = armLevel;
+public class MoveWristJoystick extends Command {
+  public MoveWristJoystick() {
+    // Use requires() here to declare subsystem dependencies
+    // eg. requires(chassis);
+    requires(Robot.m_wristJoint);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.m_elbowJoint.setBrakeForward();
-    //Robot.m_wristJoint.setArmLevel(m_ArmLevel);
-    Robot.m_elbowJoint.setArmLevel(m_ArmLevel);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    Robot.m_wristJoint.moveJointMotor(Robot.m_oi.getWristJoystickY());
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Robot.m_elbowJoint.isArmJointOnTarget();
+    return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.m_elbowJoint.disableArmJointPID();
-    Robot.m_oi.setBrakeOn();
+    Robot.m_wristJoint.moveJointMotor(0);
   }
 
   // Called when another command which requires one or more of the same

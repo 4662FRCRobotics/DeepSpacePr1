@@ -196,6 +196,10 @@ public class OI {
     return m_driveStick.getTwist() * 2 / (m_driveStick.getThrottle() + 3);
   }
 
+  public double getWristJoystickY(){
+    return -m_operatorPad.getY();
+  }
+
   public void setBrakeOn(){
     m_setBrake.setPressed(true);
   }
