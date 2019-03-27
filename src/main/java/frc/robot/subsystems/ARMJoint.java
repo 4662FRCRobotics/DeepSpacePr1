@@ -19,6 +19,7 @@ import frc.robot.ArmSetPoint;
 import frc.robot.Robot;
 import frc.robot.commands.MoveWristJoystick;
 
+import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
@@ -109,15 +110,17 @@ public class ARMJoint extends Subsystem {
     }
 
     m_jointMotor1 = new WPI_TalonSRX(Robot.m_robotMap.getPortNumber(motorString + MOTORNUMBERONE));
+    m_jointMotor1.configFactoryDefault();
     m_jointMotor1.setNeutralMode(NeutralMode.Brake);
     m_jointMotor1.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
     m_jointMotor1.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
     switch (motorString){
       case "wrist":
         m_jointMotor1.configSelectedFeedbackSensor(FeedbackDevice.Analog);
+        m_jointMotor1.configSetParameter(ParamEnum.eFeedbackNotContinuous, 0, 0, 0, 0);
         m_jointMotor1.setSensorPhase(false);
-        m_jointMotor1.configForwardSoftLimitThreshold(25);
-        m_jointMotor1.configReverseSoftLimitThreshold(250);
+        m_jointMotor1.configForwardSoftLimitThreshold(250);
+        m_jointMotor1.configReverseSoftLimitThreshold(150);
         m_jointMotor1.configForwardSoftLimitEnable(false);
         m_jointMotor1.configReverseSoftLimitEnable(false);
         break;
