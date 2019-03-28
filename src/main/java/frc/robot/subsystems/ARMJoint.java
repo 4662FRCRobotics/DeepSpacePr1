@@ -53,6 +53,9 @@ public class ARMJoint extends Subsystem {
   private int m_iBallCSEV;
   private int m_iPortCSEV;
 
+  private int m_iForwardLimit;
+  private int m_iReverseLimit;
+
   private WPI_TalonSRX m_jointMotor1;
   private WPI_TalonSRX m_jointMotor2;
   private double m_dArmJointPIDP;
@@ -116,13 +119,16 @@ public class ARMJoint extends Subsystem {
     m_jointMotor1.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
     switch (motorString){
       case "wrist":
+        m_iForwardLimit = Robot.m_robotMap.getARMJoint(motorString, "fwdLimit");
+        m_iReverseLimit = Robot.m_robotMap.getARMJoint(motorString, "revLimit");
         m_jointMotor1.configSelectedFeedbackSensor(FeedbackDevice.Analog);
         m_jointMotor1.configSetParameter(ParamEnum.eFeedbackNotContinuous, 0, 0, 0, 0);
         m_jointMotor1.setSensorPhase(false);
-        m_jointMotor1.configForwardSoftLimitThreshold(250);
-        m_jointMotor1.configReverseSoftLimitThreshold(150);
-        m_jointMotor1.configForwardSoftLimitEnable(false);
-        m_jointMotor1.configReverseSoftLimitEnable(false);
+        m_jointMotor1.configForwardSoftLimitThreshold(m_iForwardLimit);
+        m_jointMotor1.configReverseSoftLimitThreshold(m_iReverseLimit);
+       // m_jointMotor1.configForwardSoftLimitEnable(false);
+       // m_jointMotor1.configReverseSoftLimitEnable(false);
+       //Not working.
         break;
       
       case "elbow":

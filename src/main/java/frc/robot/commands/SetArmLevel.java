@@ -17,7 +17,7 @@ public class SetArmLevel extends Command {
 
   public SetArmLevel(ArmSetPoint armLevel) {
     requires(Robot.m_elbowJoint);
-   // requires(Robot.m_wristJoint);
+    //requires(Robot.m_wristJoint);
     m_ArmLevel = armLevel;
   }
 
@@ -38,12 +38,14 @@ public class SetArmLevel extends Command {
   @Override
   protected boolean isFinished() {
     return Robot.m_elbowJoint.isArmJointOnTarget();
+    //return Robot.m_wristJoint.isArmJointOnTarget();
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
     Robot.m_elbowJoint.disableArmJointPID();
+    //Robot.m_wristJoint.disableArmJointPID();
     Robot.m_oi.setBrakeOn();
   }
 
