@@ -8,51 +8,17 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.ArmSetPoint;
 import frc.robot.Robot;
 
-public class SetArmLevel extends Command {
-
-  private ArmSetPoint m_ArmLevel;
+public class SetArmLevel extends CommandGroup {
 
   public SetArmLevel(ArmSetPoint armLevel) {
+    requires(Robot.m_wristJoint);
     requires(Robot.m_elbowJoint);
-    //requires(Robot.m_wristJoint);
-    m_ArmLevel = armLevel;
-  }
 
-  // Called just before this Command runs the first time
-  @Override
-  protected void initialize() {
-    Robot.m_elbowJoint.setBrakeForward();
-    //Robot.m_wristJoint.setArmLevel(m_ArmLevel);
-    Robot.m_elbowJoint.setArmLevel(m_ArmLevel);
-  }
-
-  // Called repeatedly when this Command is scheduled to run
-  @Override
-  protected void execute() {
-  }
-
-  // Make this return true when this Command no longer needs to run execute()
-  @Override
-  protected boolean isFinished() {
-    return Robot.m_elbowJoint.isArmJointOnTarget();
-    //return Robot.m_wristJoint.isArmJointOnTarget();
-  }
-
-  // Called once after isFinished returns true
-  @Override
-  protected void end() {
-    Robot.m_elbowJoint.disableArmJointPID();
-    //Robot.m_wristJoint.disableArmJointPID();
-    Robot.m_oi.setBrakeOn();
-  }
-
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  @Override
-  protected void interrupted() {
-    end();
+    addParallel(new SetElbowLevel(armLevel));
+    //addSequential(new SetWristLevel(armLevel));
   }
 }

@@ -33,7 +33,7 @@ public class OI {
     B (3)
     Y (4)
     
-    // LB (5): Wrist Down
+    LB (5): Wrist Down
     RB (6): Wrist Up
     LT (7): ELbow Down
     RT (8): Elbow Up
