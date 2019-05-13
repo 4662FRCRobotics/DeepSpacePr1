@@ -34,6 +34,7 @@ public class Robot extends TimedRobot {
   public static Manipulator m_manipulator;
   public static ManipulatorIntake m_manipulatorIntake;
   public static RearClimb m_rearClimb;
+  public static Autonomous m_autonomous;
   public static OI m_oi;
   //Command m_autonomousCommand;
   //SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -52,6 +53,7 @@ public class Robot extends TimedRobot {
     m_manipulator = new Manipulator();
     m_manipulatorIntake = new ManipulatorIntake();
     m_rearClimb = new RearClimb();
+    m_autonomous = new Autonomous();
     m_oi = new OI();
 
     /** m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
@@ -114,6 +116,8 @@ public class Robot extends TimedRobot {
     //if (m_autonomousCommand != null) {
      // m_autonomousCommand.start();
     //}
+
+    m_autonomous.searchAutoXml();
   }
 
   /**
