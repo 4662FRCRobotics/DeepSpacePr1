@@ -16,14 +16,13 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**
- * I just lost the game
- */
+
 public class Autonomous extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
@@ -32,6 +31,10 @@ public class Autonomous extends Subsystem {
   private XPath m_xPath;
   private final String m_strPatternxmlFilename = "/home/lvuser/autonomous.xml";
   private String m_strPattern;
+
+  private Node m_node;
+  private NodeList m_nlCommands;
+  private int m_nlCommandsLength;
 
   public Autonomous() {
     // load xml
@@ -71,17 +74,25 @@ public class Autonomous extends Subsystem {
         SmartDashboard.putString("Pattern", "no Pattern found");
       }
 
-      searchExpr = "//PatternCommands[@name=\"" + m_strPattern + "\"]";
-      SmartDashboard.putString("searchexpr2", searchExpr);
-      nodeList = (NodeList) m_xPath.compile(searchExpr).evaluate(m_patternAndCommandDoc, XPathConstants.NODESET);
-      SmartDashboard.putNumber("numCommandPatternFound", nodeList.getLength());
+      searchExpr = "//patternCommands[@name=\"" + m_strPattern + "\"]";
 
-      SmartDashboard.putNumber("numCommandPatternsFound", nodeList.getLength());
+      SmartDashboard.putString("searchexpr2", searchExpr);
+
+      nodeList = (NodeList) m_xPath.compile(searchExpr).evaluate(m_patternAndCommandDoc, XPathConstants.NODESET);
+      
+      if (nodeList.getLength() == 1){
+        m_node = nodeList.item(0);
+        m_nlCommands = m_node.getChildNodes();
+        m_nlCommandsLength = m_nlCommands.getLength();
+        SmartDashboard.putNumber("numCommandsFound", m_nlCommandsLength);
+      } else {
+        m_nlCommandsLength = 0;
+        SmartDashboard.putString("Pattern", "no Command found");
+      }
 
     } catch (Exception e) {
       e.printStackTrace();
     }
-
   }
 
   @Override
