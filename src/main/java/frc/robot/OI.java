@@ -9,6 +9,8 @@ package frc.robot;
 
 import frc.robot.commands.*;
 
+import com.sun.org.apache.bcel.internal.generic.RETURN;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.InternalButton;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -222,4 +224,22 @@ public class OI {
   public void clearGripClose(){
     m_gripClose.setPressed(false);
   }
+
+  public String getAutoStartPos(){
+    int startPosNumber = m_consoleBoard.getPOV(0);
+    String startPosValue = "teleop";
+    switch(startPosNumber){
+      case 45:
+        startPosValue = "leftHab2";
+        break;
+      case 90:
+        startPosValue = "rightHab2";
+        break;
+      default:
+        startPosValue = "teleop";
+    }
+    return startPosValue;
+  }
 }
+
+

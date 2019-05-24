@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems;
 
+import frc.robot.Robot;
+
 import java.io.File;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -34,7 +36,7 @@ public class Autonomous extends Subsystem {
 
   private Node m_node;
   private NodeList m_nlCommands;
-  private int m_nlCommandsLength;
+  private int m_nlCommandsLength = 0;
 
   public Autonomous() {
     // load xml
@@ -55,7 +57,13 @@ public class Autonomous extends Subsystem {
   }
 
   public void searchAutoXml() {
-    String strStartingPosition = "leftHab2";
+    String strStartingPosition = Robot.m_oi.getAutoStartPos();
+
+    if (strStartingPosition == "teleop"){
+      SmartDashboard.putString("Pattern", "teleop");
+      return;
+    }
+    
     String strTargetPosition = "cargo1";
 
     try {
