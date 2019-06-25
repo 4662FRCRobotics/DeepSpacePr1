@@ -12,6 +12,7 @@ import frc.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
+import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -19,6 +20,11 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.SPI;
 
 
  // I did just lost the game?
@@ -47,6 +53,14 @@ public class Drive extends Subsystem {
   private final double kENCODER_PULSES_PER_REV = 1;
   private final double kGEARBOX_REDUCTION = (50/12) * (60/14);
   private final double kTIRE_SIZE = 7.9;
+
+  private AHRS m_gyroAndCollison;
+  private PIDController m_turnAngle;
+  private double m_dTurnAngleP;
+  private double m_dTurnAngleI;
+  private double m_dTurnAngleD;
+  private double m_dTurnAngleTolerance;
+  private double m_dAngle;
 
   public Drive(){
 
@@ -80,6 +94,15 @@ public class Drive extends Subsystem {
 
     m_leftEncoder1 = m_leftController1.getEncoder();
     m_rightEncoder1 = m_rightController1.getEncoder();
+
+    m_gyroAndCollison = new AHRS(SPI.Port.kMXP);
+    m_dTurnAngleP = Robot.m_robotMap.getPIDDVal("TurnAngle", 0.2);
+    m_dTurnAngleI = Robot.m_robotMap.getPIDDVal("TurnAngle", 0.0);
+    m_dTurnAngleD = Robot.m_robotMap.getPIDDVal("TurnAngle", 0.4);
+    m_turnAngle = new PIDController(m_dTurnAngleP, m_dTurnAngleI, m_dTurnAngleD, new getSourceAngle(), new putOutputTurn());
+    m_dTurnAngleTolerance = Robot.m_robotMap.getPIDDVal("TurnAngle", 2);
+    m_dAngle = 0;
+
   }
 
   @Override
@@ -98,5 +121,70 @@ public class Drive extends Subsystem {
     double distancePerEncoderTic =  kGEARBOX_REDUCTION / (kTIRE_SIZE * Math.PI) / 12;
     SmartDashboard.putNumber("leftencoder", m_leftEncoder1.getPosition() / distancePerEncoderTic);
     SmartDashboard.putNumber("rightencoder", m_rightEncoder1.getPosition() / distancePerEncoderTic);
+    SmartDashboard.putNumber("Gyro", m_gyroAndCollison.getAngle());
+  
   }
+
+  private double getGyroAngle(){
+    return m_gyroAndCollison.getAngle();
+  }
+
+  //*******************************************************************************************
+  //this block is for angle pid control.
+  //********************************************************************************************
+
+  public void disableTurnAngle(){
+    m_turnAngle.disable();
+  }
+
+  public void setTurnAngle(double angle){
+    setTurnAngle(angle, 0.75);
+  }
+
+  public void setTurnAngle(double angle, double throttle){
+    m_turnAngle.reset();
+    m_gyroAndCollison.zeroYaw();
+    m_turnAngle.setInputRange(-180f, 180f);
+    m_turnAngle.setOutputRange(-throttle, throttle);
+    m_turnAngle.setPID(m_dTurnAngleP, m_dTurnAngleI, m_dTurnAngleD);
+    m_turnAngle.setAbsoluteTolerance(m_dTurnAngleTolerance);
+    m_turnAngle.setContinuous(false);
+    m_turnAngle.setSetpoint(angle);
+    m_turnAngle.enable();
+
+  }
+
+  public boolean turnAngleOnTarget(){
+    return m_turnAngle.onTarget();
+  }
+
+  private class getSourceAngle implements PIDSource {
+
+    @Override
+    public void setPIDSourceType(PIDSourceType pidSource) {
+
+    }
+
+    @Override
+    public PIDSourceType getPIDSourceType() {
+      return PIDSourceType.kDisplacement;
+    }
+
+    @Override
+    public double pidGet() {
+      return getGyroAngle();
+    }
+	}
+
+  private class putOutputTurn implements PIDOutput{
+
+	  @Override
+	  public void pidWrite(double output) {
+      arcadeDrive(0, output);
+	  }
+
+  }
+
+}
+
 }

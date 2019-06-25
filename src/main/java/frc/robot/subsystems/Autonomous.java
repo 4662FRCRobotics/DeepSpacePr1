@@ -18,6 +18,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -37,6 +38,9 @@ public class Autonomous extends Subsystem {
   private Node m_node;
   private NodeList m_nlCommands;
   private int m_nlCommandsLength = 0;
+  private int m_nlCommandNextIndex = 0;
+
+  private Element m_element;
 
   public Autonomous() {
     // load xml
@@ -101,6 +105,31 @@ public class Autonomous extends Subsystem {
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+
+  public String getNextCmd() { // !! very high in fat !!
+    String command = "";
+    Node node;
+
+    for (int i=m_nlCommandNextIndex; i < m_nlCommandsLength; i++){
+      node = m_nlCommands.item(i);
+      if (node.getNodeType() == Node.ELEMENT_NODE) {
+        m_element = (Element) node;
+        command = m_element.getAttribute("name");
+        m_nlCommandNextIndex = i + 1;
+        break;
+      }
+    }
+
+    return command;
+  }
+
+  public boolean isFinished(){
+    return true;
+  }
+
+  public double getDoubleCommandValue(){
+    return Double.valueOf(m_element.getTextContent());
   }
 
   @Override

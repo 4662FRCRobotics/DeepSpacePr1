@@ -7,12 +7,16 @@
 
 package frc.robot.commands;
 
+import frc.robot.Robot;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 
 public class GetNextCmd extends CommandGroup {
   /**
    * Add your docs here.
    */
+
   public GetNextCmd() {
     // Add Commands here:
     // e.g. addSequential(new Command1());
@@ -30,37 +34,40 @@ public class GetNextCmd extends CommandGroup {
     // e.g. if Command1 requires chassis, and Command2 requires arm,
     // a CommandGroup containing them would require both the chassis and the
     // arm.
+
+    String command = "";
+
+    do {
+      command = Robot.m_autonomous.getNextCmd();
+      ProcessCommand(command);
+    } while (!Robot.m_autonomous.isFinished());
+
+    if (command != ""){
+      
+      addSequential(new StartGetNextCommand()); // :)
+    }else{
+      System.out.println("exiting command loop");
+    }
   }
 
-  @Override
-  protected void initialize() {
-  }
+  private void ProcessCommand(String command){
+    System.out.println("Scheduled Command: " + command);
+    switch (command) {
+      case "wait":
+        System.out.println("Wait value: " + Robot.m_autonomous.getDoubleCommandValue());
+        addSequential (new WaitCommand(Robot.m_autonomous.getDoubleCommandValue()));
+        break;
+      case "timedMove":
+        System.out.println("Timed moved value: " + Robot.m_autonomous.getDoubleCommandValue());
+        addSequential (new TimedMove(Robot.m_autonomous.getDoubleCommandValue()));
+        break;
 
-  // Called repeatedly when this Command is scheduled to run
-  @Override
-  protected void execute() {
-    // get next command
-    // schedule next command
-  }
+      case "":
 
-  // Make this return true when this Command no longer needs to run execute()
-  @Override
-  protected boolean isFinished() {
-    // if command, return true
-    // if at end, return true
-    return false;
-  }
+        break;
 
-  // Called once after isFinished returns true
-  @Override
-  protected void end() {
-    // if not at end, schedule self
-  }
-
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  @Override
-  protected void interrupted() {
-    end();
+      default:
+        System.out.println("Unrecognized command: " + command);
+    }
   }
 }

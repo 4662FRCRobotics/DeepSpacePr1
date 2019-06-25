@@ -36,7 +36,8 @@ public class Robot extends TimedRobot {
   public static RearClimb m_rearClimb;
   public static Autonomous m_autonomous;
   public static OI m_oi;
-  //Command m_autonomousCommand;
+
+  public static GetNextCmd m_autonomousCommand;
   //SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   /**
@@ -118,6 +119,8 @@ public class Robot extends TimedRobot {
     //}
 
     m_autonomous.searchAutoXml();
+    m_autonomousCommand = new GetNextCmd();
+    m_autonomousCommand.start();
   }
 
   /**
