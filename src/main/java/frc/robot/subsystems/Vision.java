@@ -11,6 +11,9 @@ import frc.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 
 /**
  * Add your docs here.
@@ -20,36 +23,55 @@ public class Vision extends Subsystem {
   // here. Call these from Commands.
 
   private Spark m_ledController;
-  private boolean m_bLightOn;
+  private boolean m_bIsLightOn;
+  private NetworkTable m_VisionTable;
+  private boolean m_bIsVisionOn;
 
-  public Vision(){
+  private NetworkTableEntry vIsVisionOn;
+
+  public Vision() {
 
     m_ledController = new Spark(Robot.m_robotMap.getPortNumber("ledController"));
-    m_bLightOn = false;
+    m_bIsLightOn = false;
+    m_VisionTable = NetworkTableInstance.getDefault().getTable("Vision");
+    m_bIsVisionOn = false;
+
+    vIsVisionOn = m_VisionTable.getEntry("isVisionOn");
+    vIsVisionOn.setBoolean(m_bIsVisionOn);
+
   }
 
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
-    
+
   }
 
-  public boolean IsLightOn() {
-    return m_bLightOn;
+  private void updateVisionTable() {
+    vIsVisionOn.setBoolean(m_bIsVisionOn);
   }
 
-  public void toggleLight() {
-    if (m_bLightOn){
+  public boolean IsVisionOn() {
+    return m_bIsVisionOn;
+  }
+
+  public void toggleVision() {
+    if (m_bIsVisionOn) {
       m_ledController.set(0);
+      
     } else {
       m_ledController.set(1);
     }
-    m_bLightOn = !m_bLightOn;
+    m_bIsLightOn = !m_bIsLightOn;
+    m_bIsVisionOn = !m_bIsVisionOn;
+    updateVisionTable();
   }
 
-  public void turnLightOff() {
+  public void turnVisionOff() {
     m_ledController.set(0);
-    m_bLightOn = false;
+    m_bIsLightOn = false;
+    m_bIsVisionOn = false;
+    updateVisionTable();
   }
 }

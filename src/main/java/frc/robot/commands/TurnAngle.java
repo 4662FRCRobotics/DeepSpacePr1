@@ -10,39 +10,43 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class ToggleVisionLight extends Command {
-  public ToggleVisionLight() {
+public class TurnAngle extends Command {
+  double m_angle;
+  public TurnAngle(double angle) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.m_vision);
+    m_angle = angle;
+    requires(Robot.m_drive);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-
+    Robot.m_drive.setTurnAngle(m_angle);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.m_vision.toggleVision();
+    // I just lost the game
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return true;
+    return Robot.m_drive.turnAngleOnTarget();
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.m_drive.disableTurnAngle();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    end();
   }
 }

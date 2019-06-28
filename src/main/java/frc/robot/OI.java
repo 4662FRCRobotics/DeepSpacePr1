@@ -110,8 +110,8 @@ public class OI {
      //Joystick
     m_driveStick = new Joystick(0);
 
-  // m_visionLightButton = new JoystickButton(m_driveStick, VISION_LIGHT_BUTTON);
-  // m_visionLightButton.whenPressed(new ToggleVisionLight());
+    m_visionLightButton = new JoystickButton(m_driveStick, VISION_LIGHT_BUTTON);
+    m_visionLightButton.whenPressed(new ToggleVisionLight());
 
      //Game Pad
     m_operatorPad = new Joystick(1);

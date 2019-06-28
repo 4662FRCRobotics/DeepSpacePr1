@@ -54,16 +54,21 @@ public class GetNextCmd extends CommandGroup {
     System.out.println("Scheduled Command: " + command);
     switch (command) {
       case "wait":
-        System.out.println("Wait value: " + Robot.m_autonomous.getDoubleCommandValue());
-        addSequential (new WaitCommand(Robot.m_autonomous.getDoubleCommandValue()));
+        double timeout = Robot.m_autonomous.getDoubleCommandValue();
+        System.out.println("Wait value: " + timeout);
+        addSequential (new WaitCommand(timeout));
         break;
+      
       case "timedMove":
-        System.out.println("Timed moved value: " + Robot.m_autonomous.getDoubleCommandValue());
-        addSequential (new TimedMove(Robot.m_autonomous.getDoubleCommandValue()));
+        double duration = Robot.m_autonomous.getDoubleCommandValue();
+        System.out.println("Timed moved value: " + duration);
+        addSequential (new TimedMove(duration));
         break;
 
-      case "":
-
+      case "turnAngle":
+        double angle = Robot.m_autonomous.getDoubleCommandValue();
+        System.out.println("Turn angle value: " + angle);
+        addSequential (new TurnAngle(angle));
         break;
 
       default:
