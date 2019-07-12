@@ -35,6 +35,7 @@ public class Robot extends TimedRobot {
   public static ManipulatorIntake m_manipulatorIntake;
   public static RearClimb m_rearClimb;
   public static Autonomous m_autonomous;
+  public static RGBLights m_rgbLights;
   public static OI m_oi;
 
   public static GetNextCmd m_autonomousCommand;
@@ -55,6 +56,7 @@ public class Robot extends TimedRobot {
     m_manipulatorIntake = new ManipulatorIntake();
     m_rearClimb = new RearClimb();
     m_autonomous = new Autonomous();
+    m_rgbLights = new RGBLights();
     m_oi = new OI();
 
     /** m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
@@ -84,6 +86,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     m_vision.turnVisionOff();
+    m_rgbLights.UpdateLEDs("DISABLED");
   }
 
   @Override
@@ -118,6 +121,8 @@ public class Robot extends TimedRobot {
      // m_autonomousCommand.start();
     //}
 
+    m_rgbLights.UpdateLEDs("AUTO");
+
     m_autonomous.searchAutoXml();
     m_autonomousCommand = new GetNextCmd();
     m_autonomousCommand.start();
@@ -140,6 +145,8 @@ public class Robot extends TimedRobot {
     //if (m_autonomousCommand != null) {
      // m_autonomousCommand.cancel();
     //}
+
+    m_rgbLights.UpdateLEDs("TELEOP");
   }
 
   /**
