@@ -87,6 +87,7 @@ public class Robot extends TimedRobot {
   public void disabledInit() {
     m_vision.turnVisionOff();
     m_rgbLights.UpdateLEDs("DISABLED");
+    m_rgbLights.UpdateColor();
   }
 
   @Override
@@ -126,6 +127,7 @@ public class Robot extends TimedRobot {
     m_autonomous.searchAutoXml();
     m_autonomousCommand = new GetNextCmd();
     m_autonomousCommand.start();
+    m_rgbLights.UpdateColor();
   }
 
   /**
@@ -147,6 +149,7 @@ public class Robot extends TimedRobot {
     //}
 
     m_rgbLights.UpdateLEDs("TELEOP");
+    m_rgbLights.UpdateColor();
   }
 
   /**

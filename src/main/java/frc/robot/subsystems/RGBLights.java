@@ -7,7 +7,9 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -39,5 +41,21 @@ public class RGBLights extends Subsystem {
     }
 
     rgbController.writeBulk(RobotStatus, RobotStatus.length);
+  }
+  public void UpdateColor() {
+    Alliance alliance = DriverStation.getInstance().getAlliance();
+    String allianceColor = "INVALID";
+    switch (alliance){
+      case Blue:
+        allianceColor = "BLUE";
+        break;
+      case Red:
+        allianceColor = "RED";
+        break;
+      default:
+        allianceColor = "INVALID";
+        break;
+    }
+    UpdateLEDs(allianceColor);
   }
 }
