@@ -44,7 +44,7 @@ public class RGBLights extends Subsystem {
   }
   public void UpdateColor() {
     Alliance alliance = DriverStation.getInstance().getAlliance();
-    String allianceColor = "INVALID";
+    String allianceColor = ",INVALID";
     switch (alliance){
       case Blue:
         allianceColor = ",BLUE";
