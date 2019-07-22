@@ -47,13 +47,13 @@ public class RGBLights extends Subsystem {
     String allianceColor = "INVALID";
     switch (alliance){
       case Blue:
-        allianceColor = "BLUE";
+        allianceColor = ",BLUE";
         break;
       case Red:
-        allianceColor = "RED";
+        allianceColor = ",RED";
         break;
       default:
-        allianceColor = "INVALID";
+        allianceColor = ",INVALID";
         break;
     }
     UpdateLEDs(allianceColor);
