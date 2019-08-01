@@ -22,7 +22,7 @@ public class RGBLights extends Subsystem {
   private static I2C rgbController;
 
   public RGBLights() {
-    rgbController = new I2C(I2C.Port.kOnboard, 8);
+    rgbController = new I2C(I2C.Port.kMXP, 8);
   }
 
   @Override
@@ -33,6 +33,8 @@ public class RGBLights extends Subsystem {
 
   public void UpdateLEDs(String WriteString) {
 
+    WriteString += UpdateColor();
+
     char[] CharArray = WriteString.toCharArray();
     byte[] RobotStatus = new byte [CharArray.length];
 
@@ -42,7 +44,7 @@ public class RGBLights extends Subsystem {
 
     rgbController.writeBulk(RobotStatus, RobotStatus.length);
   }
-  public void UpdateColor() {
+  public String UpdateColor() {
     Alliance alliance = DriverStation.getInstance().getAlliance();
     String allianceColor = ",INVALID";
     switch (alliance){
@@ -56,6 +58,6 @@ public class RGBLights extends Subsystem {
         allianceColor = ",INVALID";
         break;
     }
-    UpdateLEDs(allianceColor);
+    return allianceColor;
   }
 }
