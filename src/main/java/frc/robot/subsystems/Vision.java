@@ -26,6 +26,7 @@ public class Vision extends Subsystem {
   private boolean m_bIsLightOn;
   private NetworkTable m_VisionTable;
   private boolean m_bIsVisionOn;
+  private NetworkTableEntry vTargetOffset;
 
   private NetworkTableEntry vIsVisionOn;
 
@@ -38,6 +39,8 @@ public class Vision extends Subsystem {
 
     vIsVisionOn = m_VisionTable.getEntry("isVisionOn");
     vIsVisionOn.setBoolean(m_bIsVisionOn);
+
+    vTargetOffset = m_VisionTable.getEntry("targetOffset");
 
   }
 
@@ -73,5 +76,10 @@ public class Vision extends Subsystem {
     m_bIsLightOn = false;
     m_bIsVisionOn = false;
     updateVisionTable();
+  }
+
+  public double getTargetCenter() {
+    double dTargetCenter = vTargetOffset.getDouble(0); 
+    return dTargetCenter;
   }
 }

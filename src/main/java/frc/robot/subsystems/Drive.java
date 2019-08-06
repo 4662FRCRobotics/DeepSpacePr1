@@ -62,6 +62,13 @@ public class Drive extends Subsystem {
   private double m_dTurnAngleTolerance;
   private double m_dAngle;
 
+  private PIDController m_keepHeading;
+	private double m_dkeepHeadingP;
+	private double m_dkeepHeadingI;
+	private double m_dkeepHeadingD;
+	private double m_dkeepHeadingTolerance;
+  private volatile double m_dSteeringHeading;
+
   public Drive(){
 
     m_leftController1 = new CANSparkMax(Robot.m_robotMap.getPortNumber("leftController1"), MotorType.kBrushless);
@@ -102,6 +109,13 @@ public class Drive extends Subsystem {
     m_turnAngle = new PIDController(m_dTurnAngleP, m_dTurnAngleI, m_dTurnAngleD, new getSourceAngle(), new putOutputTurn());
     m_dTurnAngleTolerance = Robot.m_robotMap.getPIDDVal("TurnAngle", 2);
     m_dAngle = 0;
+
+    m_dkeepHeadingP = Robot.m_robotMap.getPIDPVal("keepHeading", 0.2);
+		m_dkeepHeadingI = Robot.m_robotMap.getPIDIVal("keepHeading", 0.0);
+		m_dkeepHeadingD = Robot.m_robotMap.getPIDDVal("keepHeading", 0.4);
+		m_keepHeading = new PIDController(m_dkeepHeadingP, m_dkeepHeadingI, m_dkeepHeadingD, new getSourceCamera(), new putCameraHeading() );
+		m_dkeepHeadingTolerance = Robot.m_robotMap.getPIDToleranceVal("keepHeading", 2);
+		m_dSteeringHeading = 0;
 
   }
 
@@ -158,6 +172,28 @@ public class Drive extends Subsystem {
     return m_turnAngle.onTarget();
   }
 
+  public void driveKeepHeading(double throttle) {
+    arcadeDrive(throttle, m_dSteeringHeading);
+  }
+  
+  //disable the keep heading pid
+  public void disableKeepHeading() {
+    m_keepHeading.disable();
+  }
+
+  public void setKeepHeading() {
+    m_keepHeading.reset();
+    m_keepHeading.setInputRange(-100.0f, 100.0f);
+    m_keepHeading.setOutputRange(-.75, .75);
+    m_keepHeading.setPID(m_dkeepHeadingP, m_dkeepHeadingI, m_dkeepHeadingD);
+    m_keepHeading.setAbsoluteTolerance(m_dkeepHeadingTolerance);
+    m_keepHeading.setContinuous(true);
+    m_keepHeading.setSetpoint(0.0);
+    m_keepHeading.enable();
+  }
+
+  
+
   private class getSourceAngle implements PIDSource {
 
     @Override
@@ -176,6 +212,24 @@ public class Drive extends Subsystem {
     }
 	}
 
+  private class getSourceCamera implements PIDSource {
+
+    @Override
+    public void setPIDSourceType(PIDSourceType pidSource) {
+
+    }
+
+    @Override
+    public PIDSourceType getPIDSourceType() {
+      return PIDSourceType.kDisplacement;
+    }
+
+    @Override
+    public double pidGet() {
+      return Robot.m_vision.getTargetCenter();
+    }
+	}
+  
   private class putOutputTurn implements PIDOutput{
 
 	  @Override
@@ -185,4 +239,12 @@ public class Drive extends Subsystem {
 
   }
 
+  private class putCameraHeading implements PIDOutput {
+
+		@Override
+		public void pidWrite(double output) {
+			m_dSteeringHeading = output;
+		}
+    	
+    }
 }
