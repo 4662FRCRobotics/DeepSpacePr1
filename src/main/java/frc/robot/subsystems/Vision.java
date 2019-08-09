@@ -29,6 +29,7 @@ public class Vision extends Subsystem {
   private NetworkTableEntry vTargetOffset;
 
   private NetworkTableEntry vIsVisionOn;
+  private NetworkTableEntry vIsTargetFound;
 
   public Vision() {
 
@@ -41,6 +42,8 @@ public class Vision extends Subsystem {
     vIsVisionOn.setBoolean(m_bIsVisionOn);
 
     vTargetOffset = m_VisionTable.getEntry("targetOffset");
+
+    vIsTargetFound = m_VisionTable.getEntry("isTargetFound");
 
   }
 
@@ -59,6 +62,10 @@ public class Vision extends Subsystem {
     return m_bIsVisionOn;
   }
 
+public boolean IsTargetFound() {
+  return vIsTargetFound.getBoolean(false);
+}
+
   public void toggleVision() {
     if (m_bIsVisionOn) {
       m_ledController.set(0);
@@ -75,6 +82,13 @@ public class Vision extends Subsystem {
     m_ledController.set(0);
     m_bIsLightOn = false;
     m_bIsVisionOn = false;
+    updateVisionTable();
+  }
+
+  public void turnVisionOn() {
+    m_ledController.set(1);
+    m_bIsLightOn = true;
+    m_bIsVisionOn = true;
     updateVisionTable();
   }
 

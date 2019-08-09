@@ -46,7 +46,8 @@ public class OI {
   */
 
   private Joystick m_driveStick;
-
+  
+  private JoystickButton m_CenterTargetDrive;
   private JoystickButton m_visionLightButton;
  
 
@@ -79,8 +80,11 @@ public class OI {
   private InternalButton m_holdWristPosition;
   private InternalButton m_gripClose;
 
-  // operator/game pad button ports
+  // drivestick button ports
+  private final int CENTER_TARGET_DRIVE = 2;
   private final int VISION_LIGHT_BUTTON = 12;
+
+  // operator/game pad button ports  
   private final int UP_ELBOW = 8; 
   private final int DOWN_ELBOW = 7;   
   private final int UP_WRIST = 6;
@@ -109,6 +113,9 @@ public class OI {
   public OI() {
      //Joystick
     m_driveStick = new Joystick(0);
+
+    m_CenterTargetDrive = new JoystickButton(m_driveStick, CENTER_TARGET_DRIVE);
+    m_CenterTargetDrive.whileHeld(new CenterTargetDrive());
 
     m_visionLightButton = new JoystickButton(m_driveStick, VISION_LIGHT_BUTTON);
     m_visionLightButton.whenPressed(new ToggleVisionLight());

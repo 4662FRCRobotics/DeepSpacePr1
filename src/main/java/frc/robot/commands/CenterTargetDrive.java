@@ -13,6 +13,7 @@ import frc.robot.Robot;
 public class CenterTargetDrive extends Command {
   public CenterTargetDrive() {
     requires(Robot.m_drive);
+    requires(Robot.m_vision);
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
@@ -20,13 +21,19 @@ public class CenterTargetDrive extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    Robot.m_vision.turnVisionOn();
     Robot.m_drive.setKeepHeading();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    	Robot.m_drive.driveKeepHeading(Robot.m_oi.getVelocity());
+      if (Robot.m_vision.IsTargetFound()){
+        Robot.m_drive.driveKeepHeading(Robot.m_oi.getVelocity());
+      }else{
+        Robot.m_drive.arcadeDrive(Robot.m_oi.getVelocity(), Robot.m_oi.getHeading());
+      }
+    	
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -38,11 +45,14 @@ public class CenterTargetDrive extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.m_vision.turnVisionOff();
+    Robot.m_drive.disableKeepHeading();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    end();
   }
 }
