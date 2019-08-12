@@ -143,7 +143,7 @@ public class Drive extends Subsystem {
     return m_gyroAndCollison.getAngle();
   }
 
-  //*******************************************************************************************
+  //********************************************************************************************
   //this block is for angle pid control.
   //********************************************************************************************
 
@@ -184,10 +184,10 @@ public class Drive extends Subsystem {
   public void setKeepHeading() {
     m_keepHeading.reset();
     m_keepHeading.setInputRange(-100.0f, 100.0f);
-    m_keepHeading.setOutputRange(-.75, .75);
+    m_keepHeading.setOutputRange(-.50, .50);
     m_keepHeading.setPID(m_dkeepHeadingP, m_dkeepHeadingI, m_dkeepHeadingD);
     m_keepHeading.setAbsoluteTolerance(m_dkeepHeadingTolerance);
-    m_keepHeading.setContinuous(true);
+    m_keepHeading.setContinuous(false);
     m_keepHeading.setSetpoint(0.0);
     m_keepHeading.enable();
   }

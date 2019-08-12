@@ -94,6 +94,6 @@ public boolean IsTargetFound() {
 
   public double getTargetCenter() {
     double dTargetCenter = vTargetOffset.getDouble(0); 
-    return dTargetCenter;
+    return -dTargetCenter;
   }
 }
