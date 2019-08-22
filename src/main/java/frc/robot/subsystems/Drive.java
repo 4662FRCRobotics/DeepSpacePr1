@@ -114,7 +114,7 @@ public class Drive extends Subsystem {
 		m_dkeepHeadingI = Robot.m_robotMap.getPIDIVal("keepHeading", 0.0);
 		m_dkeepHeadingD = Robot.m_robotMap.getPIDDVal("keepHeading", 0.4);
 		m_keepHeading = new PIDController(m_dkeepHeadingP, m_dkeepHeadingI, m_dkeepHeadingD, new getSourceCamera(), new putCameraHeading() );
-		m_dkeepHeadingTolerance = Robot.m_robotMap.getPIDToleranceVal("keepHeading", 2);
+		m_dkeepHeadingTolerance = Robot.m_robotMap.getPIDToleranceVal("keepHeading", 5);
 		m_dSteeringHeading = 0;
 
   }
@@ -184,7 +184,7 @@ public class Drive extends Subsystem {
   public void setKeepHeading() {
     m_keepHeading.reset();
     m_keepHeading.setInputRange(-100.0f, 100.0f);
-    m_keepHeading.setOutputRange(-.50, .50);
+    m_keepHeading.setOutputRange(-.21, .21); // .5
     m_keepHeading.setPID(m_dkeepHeadingP, m_dkeepHeadingI, m_dkeepHeadingD);
     m_keepHeading.setAbsoluteTolerance(m_dkeepHeadingTolerance);
     m_keepHeading.setContinuous(false);
