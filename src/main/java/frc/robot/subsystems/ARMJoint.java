@@ -43,6 +43,13 @@ public class ARMJoint extends Subsystem {
   private final int BRAKE_FORWARD = 5;
   private final int BRAKE_BACKWARD = 4;
 
+  private final double MAX_ENCODER_VALUE = -6210;
+  private final double MAX_THROTTLE = 1;
+  private final double MIN_THROTTLE = 0.5;
+
+  private final double THROTTLE_COEFFICIENT = ((MAX_THROTTLE - MIN_THROTTLE) / MAX_ENCODER_VALUE);
+
+
   private int m_iParkEV;
   private int m_iBall1EV;
   private int m_iBall2EV;
@@ -286,6 +293,13 @@ public class ARMJoint extends Subsystem {
     return m_ArmJointPIDCntl.onTarget()
       || (m_dSpeed < 0 && m_jointMotor1.getSensorCollection().isFwdLimitSwitchClosed())
       || (m_dSpeed > 0 && m_jointMotor1.getSensorCollection().isRevLimitSwitchClosed());
+  }
+
+  public double angleToThrottle(){ // Helps prevent tipping by decreasing the throttle as the arm goes higher
+    double throttle = 1.0;
+    double encoder_value = m_jointMotor1.getSelectedSensorPosition(0);
+    throttle = MAX_THROTTLE - (encoder_value * THROTTLE_COEFFICIENT); // max throttle - % of range of throttles
+    return throttle;
   }
 
   private class getArmJointEncoder implements PIDSource {

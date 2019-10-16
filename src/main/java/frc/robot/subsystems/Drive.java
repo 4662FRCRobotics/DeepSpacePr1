@@ -27,14 +27,12 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SPI;
 
 
- // I did just lost the game?
 /**
  * Add your docs here.
  */
 public class Drive extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
-  //The New World Order is wacthing you.
 
   private CANSparkMax m_leftController1;
   private CANSparkMax m_leftController2;
@@ -61,6 +59,7 @@ public class Drive extends Subsystem {
   private double m_dTurnAngleD;
   private double m_dTurnAngleTolerance;
   private double m_dAngle;
+  private double m_dArmAngleThrottle;
 
   private PIDController m_keepHeading;
 	private double m_dkeepHeadingP;
@@ -127,7 +126,8 @@ public class Drive extends Subsystem {
 
   public void arcadeDrive(double velocity, double heading){
     double dDriveInvert = -1;
-    m_robotDrive.arcadeDrive(velocity * dDriveInvert, heading);
+    m_dArmAngleThrottle = Robot.m_elbowJoint.angleToThrottle(); 
+    m_robotDrive.arcadeDrive(velocity * dDriveInvert * m_dArmAngleThrottle, heading);
     smartDashBoardDisplay();
   }
 
@@ -136,6 +136,7 @@ public class Drive extends Subsystem {
     SmartDashboard.putNumber("leftencoder", m_leftEncoder1.getPosition() / distancePerEncoderTic);
     SmartDashboard.putNumber("rightencoder", m_rightEncoder1.getPosition() / distancePerEncoderTic);
     SmartDashboard.putNumber("Gyro", m_gyroAndCollison.getAngle());
+    SmartDashboard.putNumber("ArmAngleThrottle", m_dArmAngleThrottle);
   
   }
 
