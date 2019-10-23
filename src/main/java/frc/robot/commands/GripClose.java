@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class GripClose extends Command {
 
-private final double TIME_OUT_VAL = 0.2;
+  private final double TIME_OUT_VAL = 0.2;
 
   public GripClose() {
     requires(Robot.m_manipulator);

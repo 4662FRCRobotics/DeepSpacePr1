@@ -121,7 +121,7 @@ public class Drive extends Subsystem {
   @Override
   public void initDefaultCommand() {
     setDefaultCommand(new ArcadeDrive());
-    
+
   }
 
   public void arcadeDrive(double velocity, double heading){
@@ -142,6 +142,36 @@ public class Drive extends Subsystem {
 
   private double getGyroAngle(){
     return m_gyroAndCollison.getAngle();
+  }
+
+  public double getAverageLeftAmperage(){
+    double amperage;
+    double left1_amperage = m_leftController1.getOutputCurrent();
+    double left2_amperage = m_leftController2.getOutputCurrent();
+    
+    amperage = (left1_amperage + left2_amperage) / 2;
+
+    return amperage;
+  }
+
+  public double getAverageRightAmperage(){
+    double amperage;
+    double right1_amperage = m_rightController1.getOutputCurrent();
+    double right2_amperage = m_rightController2.getOutputCurrent();
+
+    amperage = (right1_amperage + right2_amperage) / 2;
+
+    return amperage;
+  }
+
+  public double getAverageAmperage(){
+    double amperage;
+    double left_amperage = getAverageLeftAmperage();
+    double right_amperage = getAverageRightAmperage();
+
+    amperage = (left_amperage + right_amperage) / 2;
+
+    return amperage;
   }
 
   //********************************************************************************************
