@@ -53,6 +53,7 @@ public class Drive extends Subsystem {
   private final double kTIRE_SIZE = 7.9;
 
   private AHRS m_gyroAndCollison;
+  //Gyro
   private PIDController m_turnAngle;
   private double m_dTurnAngleP;
   private double m_dTurnAngleI;
@@ -60,6 +61,15 @@ public class Drive extends Subsystem {
   private double m_dTurnAngleTolerance;
   private double m_dAngle;
   private double m_dArmAngleThrottle;
+  //Collison
+  private double lastLinearAccelX;
+	private double lastLinearAccelY;
+	private double kCollisionThreshold_DeltaG;
+	private double currentJerkX;
+  private double currentJerkY;
+  private final double DEFAULT_THROTTLE = .6;
+
+  private final double kAMPERAGE_THRESHOLD = 20; // Too much amperage; robot will die!!!!!!!!!!!!!
 
   private PIDController m_keepHeading;
 	private double m_dkeepHeadingP;
@@ -114,7 +124,9 @@ public class Drive extends Subsystem {
 		m_dkeepHeadingD = Robot.m_robotMap.getPIDDVal("keepHeading", 0.4);
 		m_keepHeading = new PIDController(m_dkeepHeadingP, m_dkeepHeadingI, m_dkeepHeadingD, new getSourceCamera(), new putCameraHeading() );
 		m_dkeepHeadingTolerance = Robot.m_robotMap.getPIDToleranceVal("keepHeading", 5);
-		m_dSteeringHeading = 0;
+    m_dSteeringHeading = 0;
+    
+    kCollisionThreshold_DeltaG = 0.5f;
 
   }
 
@@ -126,8 +138,12 @@ public class Drive extends Subsystem {
 
   public void arcadeDrive(double velocity, double heading){
     double dDriveInvert = -1;
-    m_dArmAngleThrottle = Robot.m_elbowJoint.angleToThrottle(); 
-    m_robotDrive.arcadeDrive(velocity * dDriveInvert * m_dArmAngleThrottle, heading);
+    m_dArmAngleThrottle = Robot.m_elbowJoint.angleToThrottle();
+    if (isThereCollision() == true){
+      m_robotDrive.arcadeDrive(0, 0);
+    }else{
+      m_robotDrive.arcadeDrive(velocity * dDriveInvert * m_dArmAngleThrottle, heading);
+    }  
     smartDashBoardDisplay();
   }
 
@@ -137,6 +153,11 @@ public class Drive extends Subsystem {
     SmartDashboard.putNumber("rightencoder", m_rightEncoder1.getPosition() / distancePerEncoderTic);
     SmartDashboard.putNumber("Gyro", m_gyroAndCollison.getAngle());
     SmartDashboard.putNumber("ArmAngleThrottle", m_dArmAngleThrottle);
+    SmartDashboard.putNumber("AccelerometerX",lastLinearAccelX);
+    SmartDashboard.putNumber("AccelerometerY",lastLinearAccelY);
+    SmartDashboard.putNumber("X-jerk",currentJerkX);
+    SmartDashboard.putNumber("Y-jerk",currentJerkY);
+    SmartDashboard.putNumber("AverageAmperage",getAverageAmperage());
   
   }
 
@@ -172,6 +193,35 @@ public class Drive extends Subsystem {
     amperage = (left_amperage + right_amperage) / 2;
 
     return amperage;
+  }
+
+  public boolean isThereCollision() {
+    boolean collisionDetected = false; // Initialize return boolean
+    boolean isAmperageOverThreshold = false;
+    boolean isJerkOverThreshold = false;
+
+    double currLinearAccelX = m_gyroAndCollison.getWorldLinearAccelX(); // The acceleration in the x-axis (sides)
+    currentJerkX = currLinearAccelX - lastLinearAccelX; // Jerk (change in acceleration) in x-axis
+    lastLinearAccelX = currLinearAccelX; // Update last accel
+
+    double currLinearAccelY = m_gyroAndCollison.getWorldLinearAccelY(); // The acceleration in the y-axis (forward and backwards)
+    currentJerkY = currLinearAccelY - lastLinearAccelY; // Jerk in y-axis
+    lastLinearAccelY = currLinearAccelY; // Update last accel
+
+    double averageAmperage = getAverageAmperage();
+
+    if (averageAmperage > kAMPERAGE_THRESHOLD){
+      isAmperageOverThreshold = true;
+    }
+
+    if ( ( -currentJerkX > kCollisionThreshold_DeltaG ) ||
+      ( -currentJerkY > kCollisionThreshold_DeltaG) ) {
+      isJerkOverThreshold = true;
+    }
+
+    collisionDetected = isAmperageOverThreshold || isJerkOverThreshold;
+    
+    return collisionDetected;
   }
 
   //********************************************************************************************

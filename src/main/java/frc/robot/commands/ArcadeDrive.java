@@ -26,7 +26,12 @@ public class ArcadeDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.m_drive.arcadeDrive(Robot.m_oi.getVelocity(), Robot.m_oi.getHeading());
+    /*
+    if (Robot.m_drive.isThereCollision() == true) {
+      Robot.m_drive.arcadeDrive(0, 0);
+    }else{*/
+      Robot.m_drive.arcadeDrive(Robot.m_oi.getVelocity(), Robot.m_oi.getHeading());
+    //}
   }
 
   // Make this return true when this Command no longer needs to run execute()

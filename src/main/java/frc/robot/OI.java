@@ -196,12 +196,19 @@ public class OI {
 
   // velocity * 2 / (throttle + 3)
   public double getVelocity(){
-    return m_driveStick.getY() * 2 / (m_driveStick.getThrottle() + 3);
+    //if( Robot.m_drive.isThereCollision() == false ) {
+      return m_driveStick.getY() * 2 / (m_driveStick.getThrottle() + 3);
+  //}else{
+  //    return 0;
+    //}  
   }
 
   public double getHeading(){
-    
-    return m_driveStick.getTwist() * 2 / (m_driveStick.getThrottle() + 3);
+    //if( Robot.m_drive.isThereCollision() == false){
+      return m_driveStick.getTwist() * 2 / (m_driveStick.getThrottle() + 3);
+    //}else{
+     // return 0;
+    //}  
   }
 
   public double getWristJoystickY(){
